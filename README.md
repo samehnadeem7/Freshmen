@@ -5,6 +5,7 @@ A simple guide for VNIT Fridayhood freshmen to navigate campus life and find ess
 ## Getting Started
 
 Open `index.html` in your browser to view the guide.
+Or go to https://samehnadeem7.github.io/Freshmen/
 
 ## Contributing
 
