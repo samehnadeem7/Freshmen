@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎓 VNIT Freshmen Guide
 
 An interactive, mobile-friendly guide for freshmen at VNIT (Visvesvaraya National Institute of Technology) to navigate campus life, find food spots, and get around Nagpur city.
@@ -144,3 +145,6 @@ This project is open source and available under the [MIT License](LICENSE).
 **Made with ❤️ for VNIT students**
 
 *Last updated: December 2024*
+=======
+# Freshmen
+>>>>>>> 2e579502e189d29e9508d2c63d9afdef6f6d4ba8
