@@ -5,6 +5,7 @@ A simple guide for VNIT freshmen to navigate campus life and find essential serv
 ## Getting Started
 
 Open `index.html` in your browser to view the guide.
+or visit https://samehnadeem7.github.io/Freshmen/
 
 ## Contributing
 
