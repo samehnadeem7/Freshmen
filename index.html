@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Freshmen Guide to VNIT</title>
+    <meta name="description" content="Your comprehensive guide to navigating VNIT campus life, food spots, and getting around Nagpur city.">
+    <meta name="keywords" content="VNIT, Nagpur, Freshmen Guide, Campus Life, Food, Transportation">
+    <meta name="author" content="VNIT Student Community">
+    
+    <!-- Open Graph Meta Tags for better social sharing -->
+    <meta property="og:title" content="Interactive Freshmen Guide to VNIT">
+    <meta property="og:description" content="Your comprehensive guide to navigating VNIT campus life, food spots, and getting around Nagpur city.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourusername.github.io/VNIT-Freshmen-Guide/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Monochrome Cool Minimalism (Grays, White) -->
+    <!-- Application Structure Plan: The application uses a single-column, accordion-style layout. This structure was chosen to organize the guide's distinct sections (Getting Around, Food, Prayers) into clean, collapsible panels. This approach prevents overwhelming the user with information, allows for focused exploration of each topic, and is inherently mobile-friendly. The user flow is simple: view all topics at a glance, then click to expand and read the details of any topic of interest. -->
+    <!-- Visualization & Content Choices: The source report contains no quantitative data, so traditional charts are not applicable. Instead, the focus is on enhancing textual information for clarity and quick scanning. Report Info: Travel directions -> Goal: Clarify transport mode -> Presentation: List with icons (🚇, 🚕) -> Interaction: None needed, clarity is key. Report Info: Restaurant lists -> Goal: Categorize and highlight details -> Presentation: Grouped cards with budget/type tags -> Interaction: None needed, categorization provides sufficient organization. Report Info: Prayer info -> Goal: Separate contexts -> Presentation: Distinct sections for different days. All visual elements are achieved with Unicode characters and Tailwind CSS, adhering to the NO SVG/Mermaid constraint. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-content.open {
+            max-height: 2000px; /* Increased for mobile content */
+            transition: max-height 1s ease-in-out;
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease-in-out;
+        }
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .accordion-button {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .accordion-content {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        .accordion-button {
+            min-height: 60px; /* Better touch target */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Smooth scrolling for better mobile experience */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #374151;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-2px);
+            background: #4B5563;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-8 fade-in">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Freshmen Guide to VNIT</h1>
+            <p class="text-gray-600 mt-2 text-sm sm:text-base">Your interactive guide to navigating campus life and the city.</p>
+            <div class="mt-4 text-xs text-gray-500">
+                📱 Mobile-friendly • 🚀 Fast loading • 📍 Location-based
+            </div>
+        </header>
+
+        <div id="guide-accordion" class="space-y-4">
+
+            <!-- Section: Friday Prayers -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
+                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="prayers">
+                    <span>🕌 Friday Prayers (Jum'ah)</span>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="prayers" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="mb-4 text-sm sm:text-base">This section provides information on where to go for Friday prayers, depending on whether it's a regular academic day or a holiday.</p>
+                        <div class="space-y-3">
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <p class="font-semibold text-blue-800">📅 Regular Academic Day:</p>
+                                <p class="text-sm sm:text-base">Due to the limited one-hour lunch break, <strong>HB2</strong> is the most convenient option for Jum'ah prayers.</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg">
+                                <p class="font-semibold text-green-800">🏖️ Holiday:</p>
+                                <p class="text-sm sm:text-base">With more time available, you can visit mosques in <strong>Sadar, Mominpura, or Jafr Nagar</strong>. Travel routes are detailed in the "Getting Around" section. There is also another mosque located near the campus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section: Getting Around -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
+                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="getting-around">
+                    <span>🗺️ Getting Around</span>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="getting-around" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="mb-4 text-sm sm:text-base">Here's how to get to some popular spots from campus using public transport or a cab.</p>
+                        <ul class="space-y-4">
+                            <li class="bg-gray-50 p-3 rounded-lg">
+                                <h3 class="font-semibold text-gray-800 text-sm sm:text-base">📍 Travelling to Sadar</h3>
+                                <div class="mt-2 space-y-1 text-sm">
+                                    <p class="flex items-center"><span class="mr-2">🚇</span> From <strong>VNIT Gate 3</strong>, go to <strong>LAD Chowk Metro Station</strong>.</p>
+                                    <p class="flex items-center"><span class="mr-2">➡️</span> Take the metro to <strong>Gaddigodam Station</strong>.</p>
+                                    <p class="flex items-center"><span class="mr-2">🚶</span> Sadar is a short walk from there.</p>
+                                </div>
+                            </li>
+                            <li class="bg-gray-50 p-3 rounded-lg">
+                                <h3 class="font-semibold text-gray-800 text-sm sm:text-base">📍 Travelling to Mominpura</h3>
+                                <div class="mt-2 space-y-1 text-sm">
+                                    <p class="flex items-center"><span class="mr-2">🚇</span> From <strong>LAD Chowk Metro Station</strong>, take the metro to <strong>Dosarvaishaya Square</strong>.</p>
+                                    <p class="flex items-center"><span class="mr-2">🚶</span> Mominpura is right there as you exit the station.</p>
+                                </div>
+                            </li>
+                            <li class="bg-gray-50 p-3 rounded-lg">
+                                <h3 class="font-semibold text-gray-800 text-sm sm:text-base">📍 Travelling to Jafr Nagar</h3>
+                                <div class="mt-2 space-y-1 text-sm">
+                                    <p class="flex items-center"><span class="mr-2">🚕</span> There's no direct metro route, so taking a <strong>cab</strong> is your best option.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Food Scene -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
+                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="food-scene">
+                    <span>🍔 Food Scene</span>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="food-scene" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
+                    <div class="pt-4 border-t border-gray-200 space-y-6">
+                        <p class="text-sm sm:text-base">Explore the best food spots around Nagpur, from budget-friendly biryani to delicious shawarmas. This section covers various cuisines and restaurants popular among students.</p>
+                        
+                        <!-- Biryani -->
+                        <div>
+                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🍚 Biryani</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <h4 class="font-bold text-sm sm:text-base text-green-700">💰 Good Budget</h4>
+                                    <p class="text-sm sm:text-base">Behrouz</p>
+                                </div>
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <h4 class="font-bold text-sm sm:text-base text-blue-700">💸 Low Budget</h4>
+                                    <ul class="list-disc list-inside text-sm sm:text-base space-y-1">
+                                        <li>HKGN <span class="text-xs text-gray-500">(Mominpura)</span></li>
+                                        <li>Vakeel <span class="text-xs text-gray-500">(Sadar)</span></li>
+                                        <li>Mullaji <span class="text-xs text-gray-500">(Sadar)</span></li>
+                                        <li>Sartaj</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg col-span-1 lg:col-span-2">
+                                    <h4 class="font-bold text-sm sm:text-base text-purple-700">📱 Online / Delivery</h4>
+                                    <p class="text-sm sm:text-base">Zam Zam (Dharampeth) or Mughal Darbar are top choices.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shawarmas -->
+                        <div>
+                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🥙 Shawarmas</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <p class="text-sm sm:text-base"><strong>Al Lazeez:</strong> A quick walk to the left from Gate 1.</p>
+                                </div>
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <p class="text-sm sm:text-base"><strong>Goated Shawarma:</strong> Near Zudio, to the right of Gate 1. Best to go by cycle.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Restaurants -->
+                        <div>
+                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🍽️ Halal & Other Restaurants</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <h4 class="font-bold text-sm sm:text-base text-green-700">✅ Halal Restaurants</h4>
+                                    <ul class="list-disc list-inside text-sm sm:text-base space-y-1">
+                                        <li>Cluckers <span class="text-xs text-gray-500">(near Gate 1)</span></li>
+                                        <li>Mughal Darbar <span class="text-xs text-gray-500">(near Gate 1)</span></li>
+                                        <li>Babbu Hotel <span class="text-xs text-gray-500">(Mominpura)</span></li>
+                                        <li>Dastarkhwan</li>
+                                        <li>Al Rehman <span class="text-xs text-gray-500">(Jafr Nagar)</span></li>
+                                        <li>Zauq <span class="text-xs text-gray-500">(Sadar)</span></li>
+                                        <li>Arabian Taj <span class="text-xs text-gray-500">(Sadar)</span></li>
+                                        <li>Checkers</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
+                                    <h4 class="font-bold text-sm sm:text-base text-orange-700">🥗 Vegetarian & South Indian</h4>
+                                    <p class="text-sm sm:text-base"><strong>Uttardakshin:</strong> Great for South Indian breakfast, with outlets in Sadar and near Gate 1.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Important Note -->
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-3 sm:p-4 rounded-r-lg" role="alert">
+                            <p class="font-bold text-sm sm:text-base">⚠️ Important Note on Dining</p>
+                            <p class="text-sm sm:text-base mt-1">Always ask if the meat is halal at restaurants not on this list or if you're unsure. It's always best to confirm before ordering.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>Made with ❤️ for VNIT students</p>
+            <p class="mt-1">Last updated: <span id="lastUpdated"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordion = document.getElementById('guide-accordion');
+            const backToTopButton = document.getElementById('backToTop');
+            
+            // Set last updated date
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString();
+            
+            // Accordion functionality
+            accordion.addEventListener('click', function(event) {
+                const button = event.target.closest('.accordion-button');
+                if (!button) return;
+
+                const targetId = button.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                
+                if (content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    button.classList.remove('open');
+                } else {
+                    // Optional: Close other open accordions
+                    accordion.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                        openContent.classList.remove('open');
+                    });
+                    accordion.querySelectorAll('.accordion-button.open').forEach(openButton => {
+                        openButton.classList.remove('open');
+                    });
+
+                    content.classList.add('open');
+                    button.classList.add('open');
+                }
+            });
+            
+            // Back to top functionality
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Add touch support for mobile
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+            
+            // Performance optimization: Lazy load content
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '50px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all accordion sections
+            document.querySelectorAll('.bg-white.rounded-lg').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
