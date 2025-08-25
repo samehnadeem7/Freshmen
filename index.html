@@ -3,25 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Freshmen Guide to VNIT</title>
-    <meta name="description" content="Your comprehensive guide to navigating VNIT campus life, food spots, and getting around Nagpur city.">
-    <meta name="keywords" content="VNIT, Nagpur, Freshmen Guide, Campus Life, Food, Transportation">
-    <meta name="author" content="VNIT Student Community">
-    
-    <!-- Open Graph Meta Tags for better social sharing -->
-    <meta property="og:title" content="Interactive Freshmen Guide to VNIT">
-    <meta property="og:description" content="Your comprehensive guide to navigating VNIT campus life, food spots, and getting around Nagpur city.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourusername.github.io/VNIT-Freshmen-Guide/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <title>Fridayhood Guide</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chosen Palette: Monochrome Cool Minimalism (Grays, White) -->
-    <!-- Application Structure Plan: The application uses a single-column, accordion-style layout. This structure was chosen to organize the guide's distinct sections (Getting Around, Food, Prayers) into clean, collapsible panels. This approach prevents overwhelming the user with information, allows for focused exploration of each topic, and is inherently mobile-friendly. The user flow is simple: view all topics at a glance, then click to expand and read the details of any topic of interest. -->
-    <!-- Visualization & Content Choices: The source report contains no quantitative data, so traditional charts are not applicable. Instead, the focus is on enhancing textual information for clarity and quick scanning. Report Info: Travel directions -> Goal: Clarify transport mode -> Presentation: List with icons (🚇, 🚕) -> Interaction: None needed, clarity is key. Report Info: Restaurant lists -> Goal: Categorize and highlight details -> Presentation: Grouped cards with budget/type tags -> Interaction: None needed, categorization provides sufficient organization. Report Info: Prayer info -> Goal: Separate contexts -> Presentation: Distinct sections for different days. All visual elements are achieved with Unicode characters and Tailwind CSS, adhering to the NO SVG/Mermaid constraint. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -44,34 +28,15 @@
             transform: rotate(180deg);
         }
         
-        /* Mobile-specific optimizations */
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            .accordion-button {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            .accordion-content {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-        }
-        
-        /* Touch-friendly improvements */
         .accordion-button {
-            min-height: 60px; /* Better touch target */
+            min-height: 60px;
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Smooth scrolling for better mobile experience */
         html {
             scroll-behavior: smooth;
         }
         
-        /* Loading animation */
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
@@ -81,7 +46,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Back to top button */
         .back-to-top {
             position: fixed;
             bottom: 20px;
@@ -122,9 +86,7 @@
         <header class="text-center mb-8 fade-in">
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Freshmen Guide to VNIT</h1>
             <p class="text-gray-600 mt-2 text-sm sm:text-base">Your interactive guide to navigating campus life and the city.</p>
-            <div class="mt-4 text-xs text-gray-500">
-                📱 Mobile-friendly • 🚀 Fast loading • 📍 Location-based
-            </div>
+
         </header>
 
         <div id="guide-accordion" class="space-y-4">
@@ -272,8 +234,7 @@
         
         <!-- Footer -->
         <footer class="mt-12 text-center text-gray-500 text-sm">
-            <p>Made with ❤️ for VNIT students</p>
-            <p class="mt-1">Last updated: <span id="lastUpdated"></span></p>
+            <p>Last updated: <span id="lastUpdated"></span></p>
         </footer>
     </div>
 
@@ -282,10 +243,9 @@
             const accordion = document.getElementById('guide-accordion');
             const backToTopButton = document.getElementById('backToTop');
             
-            // Set last updated date
             document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString();
             
-            // Accordion functionality
+            // Accordion
             accordion.addEventListener('click', function(event) {
                 const button = event.target.closest('.accordion-button');
                 if (!button) return;
@@ -297,7 +257,6 @@
                     content.classList.remove('open');
                     button.classList.remove('open');
                 } else {
-                    // Optional: Close other open accordions
                     accordion.querySelectorAll('.accordion-content.open').forEach(openContent => {
                         openContent.classList.remove('open');
                     });
@@ -310,7 +269,7 @@
                 }
             });
             
-            // Back to top functionality
+            // Back to top
             window.addEventListener('scroll', function() {
                 if (window.pageYOffset > 300) {
                     backToTopButton.classList.add('visible');
@@ -326,12 +285,10 @@
                 });
             });
             
-            // Add touch support for mobile
             if ('ontouchstart' in window) {
                 document.body.classList.add('touch-device');
             }
             
-            // Performance optimization: Lazy load content
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '50px'
@@ -345,7 +302,6 @@
                 });
             }, observerOptions);
             
-            // Observe all accordion sections
             document.querySelectorAll('.bg-white.rounded-lg').forEach(section => {
                 observer.observe(section);
             });
