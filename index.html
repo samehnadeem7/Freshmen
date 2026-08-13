@@ -155,15 +155,16 @@
 
         /* ── Accordion content ── */
         .accordion-content {
-            max-height: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            transition: max-height .5s cubic-bezier(0,1,0,1);
         }
         .accordion-content.open {
-            max-height: 3000px;
-            transition: max-height 1s ease-in-out;
+            grid-template-rows: 1fr;
         }
         .accordion-body {
+            min-height: 0;
             padding: 0 22px 22px;
             border-top: 1px solid var(--border);
         }
@@ -420,29 +421,28 @@
         .lc-extras { display: none; }
         .lc-extras.open { display: block; }
         .lc-extras-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8px;
-            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
         }
         .lc-extra-item {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 10px 12px;
+            padding: 12px 14px;
         }
         .lc-extra-label {
-            font-size: .68rem;
+            font-size: .8rem;
             font-weight: 600;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--text-3);
-            margin-bottom: 4px;
+            color: var(--accent);
+            margin-bottom: 6px;
+            line-height: 1.4;
         }
         .lc-extra-val {
-            font-size: .82rem;
+            font-size: .85rem;
             color: var(--text-2);
-            line-height: 1.55;
+            line-height: 1.6;
         }
 
         .lc-footer {
@@ -748,12 +748,12 @@
                                 <button class="filter-chip" data-filter="civil">Civil</button>
                                 <button class="filter-chip" data-filter="cse">CSE</button>
                                 <button class="filter-chip" data-filter="chemical">Chemical</button>
-                                                           <div class="legacy-list" id="legacyList">
-                                <!-- Cards injected dynamically via JS -->
-                            </div><!-- /legacy-list -->                 <button class="lc-toggle" onclick="toggleExtra('ex-13', this)">Read more</button>
-                                    </div>
-                                </div>
+                                <button class="filter-chip" data-filter="architecture">Architecture</button>
+                            </div>
+                            <div class="legacy-count" id="legacyCount">0 seniors</div>
 
+                            <div class="legacy-list" id="legacyList">
+                                <!-- Cards injected dynamically via JS -->
                             </div><!-- /legacy-list -->
                             <div class="no-results" id="noResults">No results found.</div>
                         </div>
@@ -836,32 +836,37 @@
 
                     visible++;
 
+                    // Linkify helper function
+                    function linkify(text) {
+                        return text.split(/(\s+)/).map(part => {
+                            if (part.trim() === '') return part;
+                            
+                            let emailMatch = part.match(/^([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)(.*)$/);
+                            if (emailMatch) {
+                                return `<a href="mailto:${emailMatch[1]}" style="color:var(--accent); text-decoration:underline;">${emailMatch[1]}</a>${emailMatch[2]}`;
+                            }
+                            
+                            let urlMatch = part.match(/^(https?:\/\/[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
+                            if (urlMatch) {
+                                return `<a href="${urlMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${urlMatch[1]}</a>${urlMatch[2]}`;
+                            }
+
+                            let wwwMatch = part.match(/^(www\.[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
+                            if (wwwMatch) {
+                                return `<a href="https://${wwwMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${wwwMatch[1]}</a>${wwwMatch[2]}`;
+                            }
+
+                            return part;
+                        }).join('');
+                    }
+
                     // Extras
                     let extrasHtml = '';
                     for (const [key, val] of Object.entries(r)) {
                         if (!skipCols.includes(key)) {
-                            // Shorten label for UI
-                            let label = key;
-                            if (key.includes("favourite memories")) label = "Memory";
-                            else if (key.includes("taken more seriously")) label = "Wish I took seriously";
-                            else if (key.includes("worried less about")) label = "Wish I worried less";
-                            else if (key.includes("internships, placements")) label = "Career Advice";
-                            else if (key.includes("friendships, people, failure")) label = "Life Lesson";
-                            else if (key.includes("habit")) label = "Habit";
-                            else if (key.includes("remember only ONE thing")) label = "Remember this";
-                            else if (key.includes("LinkedIn / Email")) label = "Contact";
-                            else if (key.length > 25) label = key.substring(0, 22) + "...";
-
+                            const label = key;
                             let formattedVal = val.replace(/\n/g, '<br/>');
-                            
-                            // Make links clickable
-                            if (formattedVal.includes("http") || formattedVal.includes("www") || formattedVal.includes("@")) {
-                                if (formattedVal.startsWith("http")) {
-                                    formattedVal = `<a href="${formattedVal}" target="_blank" style="color:var(--accent); text-decoration:underline;">Link</a>`;
-                                } else if (formattedVal.includes("@")) {
-                                    formattedVal = `<a href="mailto:${formattedVal}" style="color:var(--accent); text-decoration:underline;">${formattedVal}</a>`;
-                                }
-                            }
+                            formattedVal = linkify(formattedVal);
 
                             extrasHtml += `<div class="lc-extra-item"><div class="lc-extra-label">${label}</div><div class="lc-extra-val">${formattedVal}</div></div>`;
                         }
