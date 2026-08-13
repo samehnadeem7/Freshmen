@@ -3,336 +3,1107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fridayhood Guide</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>VNIT Freshmen Guide</title>
+    <meta name="description" content="Your interactive guide to navigating campus life and the city at VNIT Nagpur.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f7f4;
+            color: #1a1a1a;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
         }
-        .accordion-content {
-            max-height: 0;
+
+        /* ── Tokens ── */
+        :root {
+            --bg:        #f8f7f4;
+            --surface:   #ffffff;
+            --border:    #e8e4de;
+            --border-2:  #d4cfc8;
+            --text:      #1a1a1a;
+            --text-2:    #4a4a4a;
+            --text-3:    #888;
+            --accent:    #2d4a3e;
+            --accent-2:  #3d6b5a;
+            --accent-bg: #eef4f1;
+            --warm:      #7c5c3a;
+            --warm-bg:   #faf5ef;
+            --muted-bg:  #f3f1ed;
+            --radius:    10px;
+            --radius-sm: 6px;
+            --shadow:    0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+        }
+
+        /* ── Layout ── */
+        .wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ── Header ── */
+        header {
+            padding: 56px 0 40px;
+            text-align: center;
+            animation: fadeUp .5s ease both;
+        }
+        .header-eyebrow {
+            display: inline-block;
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-bg);
+            padding: 4px 14px;
+            border-radius: 99px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(45,74,62,.15);
+        }
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.9rem, 5vw, 2.8rem);
+            font-weight: 500;
+            letter-spacing: -.02em;
+            color: var(--text);
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            font-size: .9rem;
+            color: var(--text-3);
+            font-weight: 400;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        /* ── Accordion ── */
+        #guide-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-bottom: 60px;
+        }
+
+        .accordion-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
             overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+            animation: fadeUp .5s ease both;
         }
-        .accordion-content.open {
-            max-height: 2000px; /* Increased for mobile content */
-            transition: max-height 1s ease-in-out;
-        }
-        .accordion-button svg {
-            transition: transform 0.3s ease-in-out;
-        }
-        .accordion-button.open svg {
-            transform: rotate(180deg);
-        }
-        
+        .accordion-item:nth-child(2) { animation-delay: .07s; }
+        .accordion-item:nth-child(3) { animation-delay: .14s; }
+
         .accordion-button {
-            min-height: 60px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #374151;
-            color: white;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            background: none;
             border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
             cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
+            text-align: left;
+            -webkit-tap-highlight-color: transparent;
+            gap: 12px;
+            transition: background .2s;
+        }
+        .accordion-button:hover { background: var(--muted-bg); }
+
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--accent-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            flex-shrink: 0;
+            color: var(--accent);
         }
-        
-        .back-to-top.visible {
-            opacity: 1;
+        .btn-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .btn-label {
+            font-size: .95rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -.01em;
         }
-        
-        .back-to-top:hover {
-            transform: translateY(-2px);
-            background: #4B5563;
+
+        .chevron {
+            flex-shrink: 0;
+            color: var(--text-3);
+            transition: transform .3s ease;
+        }
+        .chevron svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .accordion-button.open .chevron { transform: rotate(180deg); }
+
+        /* ── Accordion content ── */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .5s cubic-bezier(0,1,0,1);
+        }
+        .accordion-content.open {
+            max-height: 3000px;
+            transition: max-height 1s ease-in-out;
+        }
+        .accordion-body {
+            padding: 0 22px 22px;
+            border-top: 1px solid var(--border);
+        }
+        .accordion-body > p:first-child {
+            padding-top: 16px;
+        }
+
+        /* ── Typography inside accordion ── */
+        .accordion-body p,
+        .accordion-body li {
+            font-size: .875rem;
+            color: var(--text-2);
+            line-height: 1.65;
+        }
+        .accordion-body strong { color: var(--text); font-weight: 600; }
+        .accordion-body h3 {
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin: 20px 0 10px;
+        }
+        .accordion-body h4 {
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        /* ── Info cards ── */
+        .card {
+            background: var(--muted-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+        }
+        .card + .card { margin-top: 8px; }
+        .card-label {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .card-label.accent  { color: var(--accent); }
+        .card-label.warm    { color: var(--warm); }
+        .card-label.neutral { color: var(--text-3); }
+
+        /* ── Grid ── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        /* ── Tag pills ── */
+        .tag {
+            display: inline-block;
+            font-size: .72rem;
+            color: var(--text-3);
+            background: var(--border);
+            border-radius: 99px;
+            padding: 2px 9px;
+            margin-left: 4px;
+        }
+
+        /* ── Divider ── */
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 18px 0 14px;
+        }
+
+        /* ── Alert strip ── */
+        .alert {
+            border-left: 3px solid;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 12px 14px;
+            font-size: .85rem;
+            margin-top: 16px;
+        }
+        .alert.info   { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
+        .alert.warm   { border-color: #c4914d; background: var(--warm-bg); color: var(--warm); }
+        .alert.caution { border-color: #b58a3a; background: #fefaed; color: #7a5c20; }
+
+        /* ── Steps ── */
+        .steps { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+        .step  { display: flex; gap: 10px; align-items: flex-start; font-size: .875rem; color: var(--text-2); }
+        .step-num {
+            min-width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-size: .7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ── Sisters section ── */
+        .sisters-block {
+            margin-top: 18px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+        .sisters-heading {
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 10px;
+        }
+        .sisters-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--muted-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            gap: 12px;
+        }
+        .sisters-row + .sisters-row { margin-top: 6px; }
+        .sisters-name {
+            font-size: .875rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .sisters-sub {
+            font-size: .75rem;
+            color: var(--text-3);
+            margin-top: 1px;
+        }
+        .contact-link {
+            font-size: .8rem;
+            font-weight: 500;
+            color: var(--accent);
+            white-space: nowrap;
+            text-decoration: none;
+            border: 1px solid rgba(45,74,62,.2);
+            background: var(--accent-bg);
+            padding: 4px 10px;
+            border-radius: 99px;
+            transition: background .2s;
+        }
+        .contact-link:hover { background: #ddeee8; }
+
+        /* ── Legacy Wall ── */
+        .search-bar {
+            width: 100%;
+            padding: 11px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: .875rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            outline: none;
+            transition: border-color .2s;
+            margin-bottom: 14px;
+        }
+        .search-bar:focus { border-color: var(--accent-2); }
+        .search-bar::placeholder { color: var(--text-3); }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .filter-chip {
+            font-size: .72rem;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: var(--muted-bg);
+            color: var(--text-3);
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+        .filter-chip.active {
+            background: var(--accent-bg);
+            border-color: rgba(45,74,62,.3);
+            color: var(--accent);
+        }
+
+        .legacy-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .legacy-card {
+            background: var(--muted-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            transition: border-color .2s;
+        }
+        .legacy-card:hover { border-color: var(--border-2); }
+        .legacy-card.hidden { display: none; }
+
+        .lc-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .lc-name {
+            font-size: .9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .lc-meta {
+            font-size: .72rem;
+            color: var(--text-3);
+            margin-top: 2px;
+        }
+        .lc-badge {
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-bg);
+            border: 1px solid rgba(45,74,62,.15);
+            padding: 3px 9px;
+            border-radius: 99px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .lc-tip {
+            font-size: .875rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            border-left: 2px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .lc-extras { display: none; }
+        .lc-extras.open { display: block; }
+        .lc-extras-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .lc-extra-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+        }
+        .lc-extra-label {
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 4px;
+        }
+        .lc-extra-val {
+            font-size: .82rem;
+            color: var(--text-2);
+            line-height: 1.55;
+        }
+
+        .lc-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .lc-company {
+            font-size: .75rem;
+            color: var(--text-3);
+        }
+        .lc-toggle {
+            font-size: .75rem;
+            font-weight: 500;
+            color: var(--accent);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 32px 16px;
+            font-size: .875rem;
+            color: var(--text-3);
+            display: none;
+        }
+        .no-results.show { display: block; }
+
+        .legacy-count {
+            font-size: .75rem;
+            color: var(--text-3);
+            margin-bottom: 12px;
+        }
+
+        /* ── Back to top ── */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--text);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s, transform .3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .back-to-top.visible { opacity: 1; pointer-events: auto; }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 28px 0 40px;
+            font-size: .78rem;
+            color: var(--text-3);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Animation ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            header { padding: 40px 0 28px; }
+            .accordion-button { padding: 15px 16px; }
+            .accordion-body   { padding: 0 16px 18px; }
+            .grid-2, .grid-3  { grid-template-columns: 1fr; }
+            .sisters-row      { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <!-- Back to top button -->
-    <button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+    <button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-6 md:p-8">
-        
-        <header class="text-center mb-8 fade-in">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Freshmen Guide to VNIT</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Your interactive guide to navigating campus life and the city.</p>
+    <div class="wrapper">
 
+        <header>
+            <div class="header-eyebrow">VNIT Nagpur · Class of 2028</div>
+            <h1>Freshmen Guide</h1>
+            <p class="subtitle">Everything you need to navigate campus life and the city — in one place.</p>
         </header>
 
-        <div id="guide-accordion" class="space-y-4">
+        <div id="guide-accordion">
 
-            <!-- Section: Friday Prayers -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
-                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="prayers">
-                    <span>🕌 Friday Prayers (Jum'ah)</span>
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="prayers" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
-                    <div class="pt-4 border-t border-gray-200">
-                        <p class="mb-4 text-sm sm:text-base">This section provides information on where to go for Friday prayers, depending on whether it's a regular academic day or a holiday.</p>
-                        <div class="space-y-3">
-                            <div class="bg-blue-50 p-3 rounded-lg">
-                                <p class="font-semibold text-blue-800">📅 Regular Academic Day:</p>
-                                <p class="text-sm sm:text-base">Due to the limited one-hour lunch break, <strong>HB2</strong> is the most convenient option for Jum'ah prayers.</p>
-                            </div>
-                            <div class="bg-green-50 p-3 rounded-lg">
-                                <p class="font-semibold text-green-800">🏖️ Holiday:</p>
-                                <p class="text-sm sm:text-base">With more time available, you can visit mosques in <strong>Sadar, Mominpura, or Jafr Nagar</strong>. Travel routes are detailed in the "Getting Around" section. There is also another mosque located near the campus.</p>
-                            </div>
+            <!-- ── Friday Prayers ── -->
+            <div class="accordion-item">
+                <button class="accordion-button" data-target="prayers">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                         </div>
+                        <span class="btn-label">Friday Prayers (Jum'ah)</span>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Section: Getting Around -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
-                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="getting-around">
-                    <span>🗺️ Getting Around</span>
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <div class="chevron">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
                 </button>
-                <div id="getting-around" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
-                    <div class="pt-4 border-t border-gray-200">
-                        <p class="mb-4 text-sm sm:text-base">Here's how to get to some popular spots from campus using public transport or a cab.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-800 text-base mb-3 flex items-center">
-                                    <span class="mr-2">📍</span> Travelling to Sadar
-                                </h3>
-                                <div class="space-y-2 text-sm sm:text-base">
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">🚇</span>
-                                        <p>From <strong>VNIT Gate 3</strong>, go to <strong>LAD Chowk Metro Station</strong>.</p>
-                                    </div>
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">➡️</span>
-                                        <p>Take the metro to <strong>Gaddigodam Station</strong>.</p>
-                                    </div>
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">🚶</span>
-                                        <p>Sadar is a short walk from there.</p>
-                                    </div>
+                <div id="prayers" class="accordion-content">
+                    <div class="accordion-body">
+                        <p>Where to go for Friday prayers depends on your schedule that day.</p>
+
+                        <h3>By Day Type</h3>
+                        <div class="card">
+                            <div class="card-label accent">Regular Academic Day</div>
+                            <p>The one-hour lunch break makes <strong>HB2</strong> the most practical option for Jum'ah.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-label warm">Holiday</div>
+                            <p>With more time, head to mosques in <strong>Sadar, Mominpura, or Jafar Nagar</strong>. Routes are in Getting Around. There's also a mosque near campus.</p>
+                        </div>
+
+                        <!-- Sisters' Section -->
+                        <div class="sisters-block">
+                            <div class="sisters-heading">Sisters — Jumu'ah &amp; Eid</div>
+                            <div class="sisters-row">
+                                <div>
+                                    <div class="sisters-name">Salafiya Masjid</div>
+                                    <div class="sisters-sub">Jafar Nagar · Jumu'ah &amp; Eid</div>
                                 </div>
+                                <a class="contact-link" href="tel:9096330783">9096330783</a>
                             </div>
-                            
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-800 text-base mb-3 flex items-center">
-                                    <span class="mr-2">📍</span> Travelling to Mominpura
-                                </h3>
-                                <div class="space-y-2 text-sm sm:text-base">
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">🚇</span>
-                                        <p>From <strong>LAD Chowk Metro Station</strong>, take the metro to <strong>Dosarvaishaya Square</strong>.</p>
-                                    </div>
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">🚶</span>
-                                        <p>Mominpura is right there as you exit the station.</p>
-                                    </div>
+                            <div class="sisters-row">
+                                <div>
+                                    <div class="sisters-name">Walidain Masjid</div>
+                                    <div class="sisters-sub">Jafar Nagar · Jumu'ah &amp; Eid</div>
                                 </div>
+                                <a class="contact-link" href="tel:9096330783">9096330783</a>
                             </div>
-                            
-                            <div class="bg-gray-50 p-4 rounded-lg md:col-span-2 lg:col-span-1">
-                                <h3 class="font-semibold text-gray-800 text-base mb-3 flex items-center">
-                                    <span class="mr-2">📍</span> Travelling to Jafr Nagar
-                                </h3>
-                                <div class="space-y-2 text-sm sm:text-base">
-                                    <div class="flex items-start">
-                                        <span class="mr-2 mt-0.5 flex-shrink-0">🚕</span>
-                                        <p>There's no direct metro route, so taking a <strong>cab</strong> is your best option.</p>
-                                    </div>
-                                </div>
+                            <div class="alert caution" style="margin-top:10px;">
+                                Both masjids are in Jafar Nagar — cab recommended. Call ahead for prayer timings.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Section: Food Scene -->
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 fade-in">
-                <button class="accordion-button w-full flex justify-between items-center p-4 sm:p-5 text-left font-semibold text-base sm:text-lg text-gray-900" data-target="food-scene">
-                    <span>🍔 Food Scene</span>
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            <!-- ── Getting Around ── -->
+            <div class="accordion-item">
+                <button class="accordion-button" data-target="getting-around">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <span class="btn-label">Getting Around</span>
+                    </div>
+                    <div class="chevron">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
                 </button>
-                <div id="food-scene" class="accordion-content px-4 sm:px-5 pb-4 sm:pb-5 text-gray-700">
-                    <div class="pt-4 border-t border-gray-200 space-y-6">
-                        <p class="text-sm sm:text-base">Explore the best food spots around Nagpur, from budget-friendly biryani to delicious shawarmas. This section covers various cuisines and restaurants popular among students.</p>
-                        
-                        <!-- Biryani -->
-                        <div>
-                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🍚 Biryani</h3>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <h4 class="font-bold text-sm sm:text-base text-green-700">💰 Good Budget</h4>
-                                    <p class="text-sm sm:text-base">Behrouz</p>
-                                </div>
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <h4 class="font-bold text-sm sm:text-base text-blue-700">💸 Low Budget</h4>
-                                    <ul class="list-disc list-inside text-sm sm:text-base space-y-1">
-                                        <li>HKGN <span class="text-xs text-gray-500">(Mominpura)</span></li>
-                                        <li>Vakeel <span class="text-xs text-gray-500">(Sadar)</span></li>
-                                        <li>Mullaji <span class="text-xs text-gray-500">(Sadar)</span></li>
-                                        <li>Sartaj</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg col-span-1 lg:col-span-2">
-                                    <h4 class="font-bold text-sm sm:text-base text-purple-700">📱 Online / Delivery</h4>
-                                    <p class="text-sm sm:text-base">Zam Zam (Dharampeth) or Mughal Darbar are top choices.</p>
+                <div id="getting-around" class="accordion-content">
+                    <div class="accordion-body">
+                        <p>How to reach popular spots from campus by metro or cab.</p>
+
+                        <h3>Destinations</h3>
+                        <div class="grid-3">
+                            <div class="card">
+                                <div class="card-label neutral">Sadar</div>
+                                <div class="steps">
+                                    <div class="step"><div class="step-num">1</div><p>From <strong>VNIT Gate 3</strong> to <strong>LAD Chowk Metro</strong></p></div>
+                                    <div class="step"><div class="step-num">2</div><p>Metro to <strong>Gaddigodam Station</strong></p></div>
+                                    <div class="step"><div class="step-num">3</div><p>Short walk from exit</p></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Shawarmas -->
-                        <div>
-                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🥙 Shawarmas</h3>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <p class="text-sm sm:text-base"><strong>Al Lazeez:</strong> A quick walk to the left from Gate 1.</p>
-                                </div>
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <p class="text-sm sm:text-base"><strong>Shawarma G:</strong> Near Zudio, to the right of Gate 1. Best to go by cycle. (It's actually goated!)</p>
+                            <div class="card">
+                                <div class="card-label neutral">Mominpura</div>
+                                <div class="steps">
+                                    <div class="step"><div class="step-num">1</div><p><strong>LAD Chowk Metro</strong> to <strong>Dosarvaishaya Square</strong></p></div>
+                                    <div class="step"><div class="step-num">2</div><p>Mominpura is right at the exit</p></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Other Restaurants -->
-                        <div>
-                            <h3 class="font-semibold text-lg sm:text-xl text-gray-800 mb-3">🍽️ Halal & Other Restaurants</h3>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <h4 class="font-bold text-sm sm:text-base text-green-700">✅ Halal Restaurants</h4>
-                                    <ul class="list-disc list-inside text-sm sm:text-base space-y-1">
-                                        <li>Cluckers <span class="text-xs text-gray-500">(near Gate 1)</span></li>
-                                        <li>Mughal Darbar <span class="text-xs text-gray-500">(near Gate 1)</span></li>
-                                        <li>Babbu Hotel <span class="text-xs text-gray-500">(Mominpura)</span></li>
-                                        <li>Dastarkhwan</li>
-                                        <li>Al Rehman <span class="text-xs text-gray-500">(Jafr Nagar)</span></li>
-                                        <li>Zauq <span class="text-xs text-gray-500">(Sadar)</span></li>
-                                        <li>Arabian Taj <span class="text-xs text-gray-500">(Sadar)</span></li>
-                                        <li>Checkers</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                                    <h4 class="font-bold text-sm sm:text-base text-orange-700">🥗 Vegetarian & South Indian</h4>
-                                    <p class="text-sm sm:text-base"><strong>Uttardakshin:</strong> Great for South Indian breakfast, with outlets in Sadar and near Gate 1.</p>
-                                </div>
+                            <div class="card" style="grid-column: 1 / -1;">
+                                <div class="card-label neutral">Jafar Nagar</div>
+                                <p style="margin-top:4px;">No direct metro. Take a <strong>cab</strong> — it's the easiest option.</p>
                             </div>
-                        </div>
-
-                        <!-- Important Note -->
-                        <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-3 sm:p-4 rounded-r-lg" role="alert">
-                            <p class="font-bold text-sm sm:text-base">⚠️ Important Note on Dining</p>
-                            <p class="text-sm sm:text-base mt-1">Always ask if the meat is halal at restaurants not on this list or if you're unsure. It's always best to confirm before ordering.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-        
-        <!-- Footer -->
-        <footer class="mt-12 text-center text-gray-500 text-sm">
-            <p>Last updated: <span id="lastUpdated"></span></p>
+            <!-- ── Food Scene ── -->
+            <div class="accordion-item">
+                <button class="accordion-button" data-target="food-scene">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                        </div>
+                        <span class="btn-label">Food Scene</span>
+                    </div>
+                    <div class="chevron">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </button>
+                <div id="food-scene" class="accordion-content">
+                    <div class="accordion-body">
+                        <p>Best food spots around Nagpur — from budget biryani to shawarmas.</p>
+
+                        <h3>Biryani</h3>
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-label accent">Better Budget</div>
+                                <p>Behrouz</p>
+                            </div>
+                            <div class="card">
+                                <div class="card-label neutral">Low Budget</div>
+                                <ul style="list-style:none; margin-top:4px; display:flex; flex-direction:column; gap:3px;">
+                                    <li>HKGN <span class="tag">Mominpura</span></li>
+                                    <li>Vakeel <span class="tag">Sadar</span></li>
+                                    <li>Mullaji <span class="tag">Sadar</span></li>
+                                    <li>Sartaj</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top:8px;">
+                            <div class="card-label neutral">Delivery</div>
+                            <p>Zam Zam (Dharampeth) or Mughal Darbar are top picks.</p>
+                        </div>
+
+                        <h3>Shawarma</h3>
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-label neutral">Al Lazeez</div>
+                                <p>Short walk left from Gate 1.</p>
+                            </div>
+                            <div class="card">
+                                <div class="card-label neutral">Shawarma G</div>
+                                <p>Near Zudio, right of Gate 1. Best by cycle — actually goated.</p>
+                            </div>
+                        </div>
+
+                        <h3>Halal &amp; Other Restaurants</h3>
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-label accent">Halal</div>
+                                <ul style="list-style:none; margin-top:4px; display:flex; flex-direction:column; gap:3px;">
+                                    <li>Cluckers <span class="tag">Gate 1</span></li>
+                                    <li>Mughal Darbar <span class="tag">Gate 1</span></li>
+                                    <li>Babbu Hotel <span class="tag">Mominpura</span></li>
+                                    <li>Dastarkhwan</li>
+                                    <li>Al Rehman <span class="tag">Jafar Nagar</span></li>
+                                    <li>Zauq <span class="tag">Sadar</span></li>
+                                    <li>Arabian Taj <span class="tag">Sadar</span></li>
+                                    <li>Checkers</li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <div class="card-label warm">Veg / South Indian</div>
+                                <p><strong>Uttardakshin</strong> — great South Indian breakfast. Outlets in Sadar and near Gate 1.</p>
+                            </div>
+                        </div>
+
+                        <div class="alert caution">
+                            Always confirm halal status at unlisted restaurants before ordering.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Senior Legacy Wall ── -->
+            <div class="accordion-item" style="animation-delay:.21s">
+                <button class="accordion-button" data-target="legacy">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <span class="btn-label">Senior Legacy Wall</span>
+                    </div>
+                    <div class="chevron">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </button>
+                <div id="legacy" class="accordion-content">
+                    <div class="accordion-body">
+                        <p>Wisdom, advice and memories from your seniors — collected before they left.</p>
+
+                        <div style="margin-top:14px;">
+                            <input class="search-bar" id="legacySearch" type="text" placeholder="Search by name, branch, advice..." />
+                            <div class="filter-row" id="filterRow">
+                                <button class="filter-chip active" data-filter="all">All</button>
+                                <button class="filter-chip" data-filter="mme">MME</button>
+                                <button class="filter-chip" data-filter="mechanical">Mechanical</button>
+                                <button class="filter-chip" data-filter="civil">Civil</button>
+                                <button class="filter-chip" data-filter="cse">CSE</button>
+                                <button class="filter-chip" data-filter="chemical">Chemical</button>
+                                <button class="filter-chip" data-filter="architecture">Architecture</button>
+                            </div>
+                            <div class="legacy-count" id="legacyCount">13 seniors</div>
+
+                            <div class="legacy-list" id="legacyList">
+
+                                <!-- 1 -->
+                                <div class="legacy-card" data-branch="mme" data-search="khan zaid shafique mme build character career mbal investments uae">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Khan Zaid Shafique</div>
+                                            <div class="lc-meta">MME &middot; Batch of 2023</div>
+                                        </div>
+                                        <div class="lc-badge">MBAL Investments, UAE</div>
+                                    </div>
+                                    <div class="lc-tip">Build character that lasts longer than your career.</div>
+                                    <div class="lc-extras" id="ex-1">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Advice</div><div class="lc-extra-val">Choosing a career to pursue is much more important than just getting placed anywhere.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">Life goes on, money loves to flow, confidence is the key, failure builds character, people come and go.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Habit</div><div class="lc-extra-val">Asking questions and thriving for answers.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Contact</div><div class="lc-extra-val">+971 56 682 0887 &middot; <a href="mailto:zaidkhanfr30@gmail.com" style="color:var(--accent);">zaidkhanfr30@gmail.com</a></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Operations, Finance &amp; Islamic Affairs</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-1', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 2 -->
+                                <div class="legacy-card" data-branch="mechanical" data-search="shozib bilal mechanical cgpa placement sunflag steel">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">M. Shozib Bilal</div>
+                                            <div class="lc-meta">Mechanical &middot; Batch of 2026</div>
+                                        </div>
+                                        <div class="lc-badge">Sunflag Steel, India</div>
+                                    </div>
+                                    <div class="lc-tip">CGPA is the first step to a good placement. Be selective — don't apply randomly. Look at location, brand, work alignment and CTC.</div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Sunflag Steel Company</span>
+                                    </div>
+                                </div>
+
+                                <!-- 3 -->
+                                <div class="legacy-card" data-branch="civil" data-search="syed mukhtadir civil prayer enjoy college vconstruct">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Syed Mukhtadir</div>
+                                            <div class="lc-meta">Civil &middot; Batch of 2026</div>
+                                        </div>
+                                        <div class="lc-badge">VCONSTRUCT, India</div>
+                                    </div>
+                                    <div class="lc-tip">Enjoy your college life and establish prayer.</div>
+                                    <div class="lc-extras" id="ex-3">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Advice</div><div class="lc-extra-val">Learn about different scopes and fields for engineers early.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">Always choose your own path.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Internship</div><div class="lc-extra-val">NHAI Semester-Long Internship — highly recommended.</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">VCONSTRUCT</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-3', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 4 -->
+                                <div class="legacy-card" data-branch="chemical" data-search="sayyed kaizad chemical cgpa tnp secretary microland bengaluru">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Sayyed Kaizad</div>
+                                            <div class="lc-meta">Chemical Engineering &middot; Batch of 2024</div>
+                                        </div>
+                                        <div class="lc-badge">Microland, Bengaluru</div>
+                                    </div>
+                                    <div class="lc-tip">CGPA matters a lot. Try to become a TNP secretary.</div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Microland, Bengaluru</span>
+                                    </div>
+                                </div>
+
+                                <!-- 5 -->
+                                <div class="legacy-card" data-branch="cse" data-search="muhammad ayaan shaikh cse memories">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Muhammad Ayaan Shaikh</div>
+                                            <div class="lc-meta">CSE &middot; Batch of 2026</div>
+                                        </div>
+                                        <div class="lc-badge">India</div>
+                                    </div>
+                                    <div class="lc-tip">Make as many memories as possible.</div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">CSE Graduate</span>
+                                    </div>
+                                </div>
+
+                                <!-- 6 -->
+                                <div class="legacy-card" data-branch="mechanical" data-search="haidar hasan mechanical allah best evonith steel">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Haidar Hasan</div>
+                                            <div class="lc-meta">Mechanical &middot; Batch of 2021</div>
+                                        </div>
+                                        <div class="lc-badge">Evonith Steel, India</div>
+                                    </div>
+                                    <div class="lc-tip">Give your best in everything you do, and then leave the rest to Allah.</div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Evonith Steel</span>
+                                    </div>
+                                </div>
+
+                                <!-- 7 -->
+                                <div class="legacy-card" data-branch="civil" data-search="amaan siddique civil portfolio visible promote content creation">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Amaan Siddique</div>
+                                            <div class="lc-meta">Civil Engineering</div>
+                                        </div>
+                                        <div class="lc-badge">Content Creator</div>
+                                    </div>
+                                    <div class="lc-tip">Shamelessly promote your work. The best portfolio doesn't win — the visible one does.</div>
+                                    <div class="lc-extras" id="ex-7">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Confidence</div><div class="lc-extra-val">You don't get confidence at the start — you get it as you continue working.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Habit</div><div class="lc-extra-val">Diet and physical activity — transformed his fitness and mindset.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Insight</div><div class="lc-extra-val">Work on building a visible portfolio rather than a perfect one.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Contact</div><div class="lc-extra-val"><a href="mailto:amaansiddique574@gmail.com" style="color:var(--accent);">amaansiddique574@gmail.com</a></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Open to helping with online presence</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-7', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 8 -->
+                                <div class="legacy-card" data-branch="architecture" data-search="syed asim architecture rizq archicodes owner workout">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Syed Mohammad Asim</div>
+                                            <div class="lc-meta">Architecture &middot; Batch of 2021</div>
+                                        </div>
+                                        <div class="lc-badge">ArchiCodes (Owner)</div>
+                                    </div>
+                                    <div class="lc-tip">Rizq is written — don't fret too much over it. Prioritise what matters most: deen, then survival, then health.</div>
+                                    <div class="lc-extras" id="ex-8">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Warning</div><div class="lc-extra-val">Nobody is here trying to think about what's best for you. Everyone looks out for themselves — be aware.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Remember</div><div class="lc-extra-val">Workout!!!</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">ArchiCodes, India</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-8', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 9 -->
+                                <div class="legacy-card" data-branch="chemical" data-search="muqsit abrar chemical cgpa masters uk physics wallah helping">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Abdul Muqsit Abrar</div>
+                                            <div class="lc-meta">Chemical &middot; Batch of 2024</div>
+                                        </div>
+                                        <div class="lc-badge">Physics Wallah, India</div>
+                                    </div>
+                                    <div class="lc-tip">Maintain CGPA above 7.5. Seriously consider Masters from UK, Australia or Canada — the ROI is worth it.</div>
+                                    <div class="lc-extras" id="ex-9">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Advice</div><div class="lc-extra-val">Internships play a good role in finding jobs today — start early.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">People and friendships change with time, and that's okay. Don't force it.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Remember</div><div class="lc-extra-val">My helping nature.</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Physics Wallah</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-9', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 10 -->
+                                <div class="legacy-card" data-branch="mechanical" data-search="mateen mohsin mechanical calm balance academics danfoss notes">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Mateen Mohsin</div>
+                                            <div class="lc-meta">Mechanical Engineering &middot; Batch of 2019</div>
+                                        </div>
+                                        <div class="lc-badge">Danfoss, India</div>
+                                    </div>
+                                    <div class="lc-tip">Balance academics and college life. Stay calm — don't react too much to negative experiences.</div>
+                                    <div class="lc-extras" id="ex-10">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">GPA Secret</div><div class="lc-extra-val">Take detailed notes during lectures. A lot of problem solving lies in rereading your own notes.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">Everything fades with time — both failure and success, pain and happiness.</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Danfoss</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-10', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 11 -->
+                                <div class="legacy-card" data-branch="civil" data-search="arbaaz khan civil placements self-learn never depend college precision precast">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Arbaaz Khan</div>
+                                            <div class="lc-meta">Civil Engineering &middot; Batch of 2021</div>
+                                        </div>
+                                        <div class="lc-badge">Precision Precast, India</div>
+                                    </div>
+                                    <div class="lc-tip">Civil has limited job opportunities. Start building skills from Year 1 — never depend entirely on college placements.</div>
+                                    <div class="lc-extras" id="ex-11">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Warning</div><div class="lc-extra-val">Start from 1st year. Never depend on college alone — sit for interviews independently too.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">Most people are a façade — cherish the genuine ones.</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Precision Precast Solutions</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-11', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                                <!-- 12 -->
+                                <div class="legacy-card" data-branch="chemical" data-search="nawaz sharief chemical procrastination postpone magic software">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Shaik Nawaz Sharief</div>
+                                            <div class="lc-meta">Chemical Engineering &middot; Batch of 2017</div>
+                                        </div>
+                                        <div class="lc-badge">Magic Software, India</div>
+                                    </div>
+                                    <div class="lc-tip">Never postpone things to the last moment.</div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Magic Software</span>
+                                    </div>
+                                </div>
+
+                                <!-- 13 -->
+                                <div class="legacy-card" data-branch="civil" data-search="ahmed mirza civil surround people strengths unilever bangalore">
+                                    <div class="lc-head">
+                                        <div>
+                                            <div class="lc-name">Ahmed Mirza</div>
+                                            <div class="lc-meta">Civil &middot; Batch of 2019</div>
+                                        </div>
+                                        <div class="lc-badge">Unilever, Bangalore</div>
+                                    </div>
+                                    <div class="lc-tip">Surround yourself with people who help you become a better human. Understand your strengths and weaknesses early.</div>
+                                    <div class="lc-extras" id="ex-13">
+                                        <div class="lc-extras-grid">
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Career Advice</div><div class="lc-extra-val">Be genuinely curious. Build a personality people enjoy working with — everything else follows.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">Life Lesson</div><div class="lc-extra-val">Nothing is permanent — the quicker you learn and move on from setbacks, the better.</div></div>
+                                            <div class="lc-extra-item"><div class="lc-extra-label">To You</div><div class="lc-extra-val">Never a stranger — here to help anytime.</div></div>
+                                        </div>
+                                    </div>
+                                    <div class="lc-footer">
+                                        <span class="lc-company">Unilever, Bangalore</span>
+                                        <button class="lc-toggle" onclick="toggleExtra('ex-13', this)">Read more</button>
+                                    </div>
+                                </div>
+
+                            </div><!-- /legacy-list -->
+                            <div class="no-results" id="noResults">No results found.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /accordion -->
+
+        <footer>
+            <p>Last updated: <span id="lastUpdated"></span> &nbsp;·&nbsp; VNIT Freshmen Guide</p>
         </footer>
-    </div>
+
+    </div><!-- /wrapper -->
 
     <script>
+        // ── Toggle extra details ──
+        function toggleExtra(id, btn) {
+            const el = document.getElementById(id);
+            const open = el.classList.toggle('open');
+            btn.textContent = open ? 'Show less' : 'Read more';
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
-            const accordion = document.getElementById('guide-accordion');
-            const backToTopButton = document.getElementById('backToTop');
-            
-            document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString();
-            
+            const accordion    = document.getElementById('guide-accordion');
+            const backToTopBtn = document.getElementById('backToTop');
+
+            document.getElementById('lastUpdated').textContent =
+                new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
             // Accordion
-            accordion.addEventListener('click', function(event) {
-                const button = event.target.closest('.accordion-button');
-                if (!button) return;
+            accordion.addEventListener('click', function (e) {
+                if (e.target.closest('.lc-toggle') || e.target.closest('.filter-chip') || e.target.closest('.search-bar')) return;
+                const btn = e.target.closest('.accordion-button');
+                if (!btn) return;
 
-                const targetId = button.getAttribute('data-target');
-                const content = document.getElementById(targetId);
-                
-                if (content.classList.contains('open')) {
-                    content.classList.remove('open');
-                    button.classList.remove('open');
-                } else {
-                    accordion.querySelectorAll('.accordion-content.open').forEach(openContent => {
-                        openContent.classList.remove('open');
-                    });
-                    accordion.querySelectorAll('.accordion-button.open').forEach(openButton => {
-                        openButton.classList.remove('open');
-                    });
+                const targetId = btn.getAttribute('data-target');
+                const content  = document.getElementById(targetId);
+                const isOpen   = content.classList.contains('open');
 
+                accordion.querySelectorAll('.accordion-content.open').forEach(c => c.classList.remove('open'));
+                accordion.querySelectorAll('.accordion-button.open').forEach(b => b.classList.remove('open'));
+
+                if (!isOpen) {
                     content.classList.add('open');
-                    button.classList.add('open');
+                    btn.classList.add('open');
                 }
             });
-            
-            // Back to top
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
-            
-            backToTopButton.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+
+            // ── Legacy search & filter ──
+            const cards      = document.querySelectorAll('.legacy-card');
+            const searchInput= document.getElementById('legacySearch');
+            const filterBtns = document.querySelectorAll('.filter-chip');
+            const noResults  = document.getElementById('noResults');
+            const countEl    = document.getElementById('legacyCount');
+            let activeFilter = 'all';
+
+            function applyFilters() {
+                const q = searchInput.value.toLowerCase().trim();
+                let visible = 0;
+                cards.forEach(card => {
+                    const branch  = card.dataset.branch || '';
+                    const text    = card.dataset.search || '';
+                    const inBranch = activeFilter === 'all' || branch.includes(activeFilter);
+                    const inSearch = !q || text.includes(q) || card.textContent.toLowerCase().includes(q);
+                    const show = inBranch && inSearch;
+                    card.classList.toggle('hidden', !show);
+                    if (show) visible++;
                 });
-            });
-            
-            if ('ontouchstart' in window) {
-                document.body.classList.add('touch-device');
+                countEl.textContent = visible + ' senior' + (visible !== 1 ? 's' : '');
+                noResults.classList.toggle('show', visible === 0);
             }
-            
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '50px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
-                    }
+
+            searchInput.addEventListener('input', applyFilters);
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activeFilter = this.dataset.filter;
+                    applyFilters();
                 });
-            }, observerOptions);
-            
-            document.querySelectorAll('.bg-white.rounded-lg').forEach(section => {
-                observer.observe(section);
+            });
+
+            // Back to top
+            window.addEventListener('scroll', function () {
+                backToTopBtn.classList.toggle('visible', window.scrollY > 280);
+            });
+            backToTopBtn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
-
 </body>
 </html>
