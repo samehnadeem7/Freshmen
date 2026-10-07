@@ -36,4 +36,4 @@ Security advisors report an informational “RLS enabled, no policy” finding f
 
 The website remains static. Deploy `index.html`, `feedback.js`, and `feedback.css` together using the existing hosting workflow. The database/function are already deployed; no frontend hosting deployment was performed by this change.
 
-Restaurant suggestions use the additive `restaurant-requests.sql` schema and `supabase/functions/restaurant-requests/index.ts`. Those two remote resources still need to be applied when Supabase deployment access is available. The Gmail worker and setup steps are in `gmail-apps-script/README.md`; it sends each claimed request through the owner's Gmail account and acknowledges it only after Gmail accepts the message.
+Restaurant suggestions use the `restaurant-requests.sql` schema and `supabase/functions/restaurant-requests/index.ts`; both are deployed to the connected Supabase project. The form now saves suggestions for the admin portal. The Gmail worker and setup steps are in `gmail-apps-script/README.md`; email notifications require that worker and its shared secret to be configured separately.
