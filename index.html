@@ -9,6 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="gallery.css?v=15">
+    <script src="feedback.js?v=2" defer></script>
+    <script src="gallery-data.js?v=2" defer></script>
+    <script src="gallery.js?v=7" defer></script>
+    <script src="gallery-admin.js?v=8" defer></script>
+
     <style>
         /* ── Reset & Base ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -227,6 +234,10 @@
             gap: 8px;
             margin-top: 8px;
         }
+        .grid-2 > .card + .card,
+        .grid-3 > .card + .card {
+            margin-top: 0;
+        }
 
         /* ── Tag pills ── */
         .tag {
@@ -324,6 +335,82 @@
             transition: background .2s;
         }
         .contact-link:hover { background: #ddeee8; }
+
+        .map-link {
+            color: inherit;
+            text-decoration-line: underline;
+            text-decoration-color: var(--border-2);
+            text-underline-offset: 2px;
+            transition: color .2s, text-decoration-color .2s;
+        }
+        .map-link:hover {
+            color: var(--accent);
+            text-decoration-color: var(--accent);
+        }
+
+        .restaurant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .restaurant-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 28px;
+            font-size: .875rem;
+            color: var(--text-2);
+            line-height: 1.45;
+        }
+        .restaurant-row.featured {
+            min-height: 38px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        .restaurant-link {
+            min-width: 0;
+            color: inherit;
+            text-decoration-line: underline;
+            text-decoration-color: var(--border-2);
+            text-underline-offset: 2px;
+            transition: color .2s, text-decoration-color .2s;
+        }
+        .restaurant-link:hover {
+            color: var(--accent);
+            text-decoration-color: var(--accent);
+        }
+        .map-icon-link {
+            width: 26px;
+            height: 26px;
+            margin-left: auto;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 26px;
+            transition: background .2s, border-color .2s;
+        }
+        .map-icon-link:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent-2);
+        }
+        .map-icon-link svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .restaurant-note {
+            margin-top: 4px;
+            font-size: .8rem;
+            color: var(--text-3);
+        }
 
         /* ── Legacy Wall ── */
         .search-bar {
@@ -549,6 +636,25 @@
 
         <div id="guide-accordion">
 
+            <!-- ── Campus Gallery ── -->
+            <div class="accordion-item gallery-accordion-item">
+                <button class="accordion-button" data-target="gallery-content" aria-controls="gallery-content" aria-expanded="false">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg>
+                        </div>
+                        <span class="btn-label">Gallery</span>
+                    </div>
+                    <div class="chevron"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div>
+                </button>
+                <div id="gallery-content" class="accordion-content">
+                    <div class="accordion-body gallery-body">
+                        <div class="gallery-filters" role="group" aria-label="Filter gallery by year"></div>
+                        <div class="gallery-occasions"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ── Friday Prayers ── -->
             <div class="accordion-item">
                 <button class="accordion-button" data-target="prayers">
@@ -573,7 +679,7 @@
                         </div>
                         <div class="card">
                             <div class="card-label warm">Holiday</div>
-                            <p>With more time, head to mosques in <strong>Sadar, Mominpura, or Jafar Nagar</strong>. Routes are in Getting Around. There's also a mosque near campus.</p>
+                            <p>With more time, head to mosques in <strong><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=mosques+in+Sadar%2C+Nagpur" target="_blank" rel="noopener noreferrer">Sadar</a>, <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=mosques+in+Mominpura%2C+Nagpur" target="_blank" rel="noopener noreferrer">Mominpura</a>, or <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=mosques+in+Jafar+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer">Jafar Nagar</a></strong>. Routes are in Getting Around. There's also a mosque near campus.</p>
                         </div>
 
                         <!-- Sisters' Section -->
@@ -581,14 +687,14 @@
                             <div class="sisters-heading">Sisters — Jumu'ah &amp; Eid</div>
                             <div class="sisters-row">
                                 <div>
-                                    <div class="sisters-name">Salafiya Masjid</div>
+                                    <div class="sisters-name"><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Darul+Uloom+Salafiah%2C+53J7%2BWQR%2C+Ahbab+Colony%2C+Jafar+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer">Salafiya Masjid</a></div>
                                     <div class="sisters-sub">Jafar Nagar · Jumu'ah &amp; Eid</div>
                                 </div>
                                 <a class="contact-link" href="tel:9096330783">9096330783</a>
                             </div>
                             <div class="sisters-row">
                                 <div>
-                                    <div class="sisters-name">Walidain Masjid</div>
+                                    <div class="sisters-name"><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Masjid-e-Walidain+Ahle+Hadees%2C+53Q7%2B7VP%2C+near+Shyam+Lawn%2C+Jafar+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer">Walidain Masjid</a></div>
                                     <div class="sisters-sub">Jafar Nagar · Jumu'ah &amp; Eid</div>
                                 </div>
                                 <a class="contact-link" href="tel:9096330783">9096330783</a>
@@ -664,54 +770,144 @@
                         <h3>Biryani</h3>
                         <div class="grid-2">
                             <div class="card">
-                                <div class="card-label accent">Better Budget</div>
-                                <p>Behrouz</p>
+                                <div class="card-label accent">Biryani Specialists</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/behrouz-biryani-sadar" target="_blank" rel="noopener noreferrer" data-restaurant-id="behrouz-biryani">Behrouz Biryani</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Behrouz+Biryani%2C+Hotel+Brij%2C+Gaddigodam+Chowk%2C+Kamptee+Road%2C+Sadar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Behrouz Biryani in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/red-bucket-biryani-somalwada" target="_blank" rel="noopener noreferrer" data-restaurant-id="red-bucket-biryani">Red Bucket Biryani</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Red+Bucket+Biryani%2C+Plot+10%2C+Shubhangi+Gruh+Nirman%2C+Hanuman+Nagar+Zone%2C+Besa+Road%2C+near+Central+Bank%2C+Somalwada%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Red Bucket Biryani in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/al-bashir-hotel-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="al-bashir-hotel">Al Bashir Hotel</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Bashir+Hotel%2C+57+Ground+Floor%2C+Shiwalkar+Building%2C+IT+Park%2C+Gopal+Nagar%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Al Bashir Hotel in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card">
-                                <div class="card-label neutral">Low Budget</div>
-                                <ul style="list-style:none; margin-top:4px; display:flex; flex-direction:column; gap:3px;">
-                                    <li>HKGN <span class="tag">Mominpura</span></li>
-                                    <li>Vakeel <span class="tag">Sadar</span></li>
-                                    <li>Mullaji <span class="tag">Sadar</span></li>
-                                    <li>Sartaj</li>
-                                </ul>
+                                <div class="card-label accent">Low Budget</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.swiggy.com/city/nagpur/hkgn-gulab-baba-biryani-hansapuri-mominpura-rest908789" target="_blank" rel="noopener noreferrer" data-restaurant-id="hkgn-gulab-baba-biryani">HKGN Gulab Baba Biryani</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=HKGN+Gulab+Baba+Biryani%2C+Hansapuri%2C+Mominpura%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open HKGN Gulab Baba Biryani in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/hotel-wakil-biryani-center-chaoni" target="_blank" rel="noopener noreferrer" data-restaurant-id="hotel-wakil-biryani-center">Hotel Wakil Biryani Center</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Wakil+Biryani+Center%2C+175+NMC+Complex%2C+Bajaj+Wing%2C+Mangalwari+Bazar%2C+Chaoni%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Hotel Wakil Biryani Center in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/mullaji-zillah-biryani-centre-sadar" target="_blank" rel="noopener noreferrer" data-restaurant-id="mullaji-zillah-biryani-centre">Mullaji Zillah Biryani Centre</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mullaji+Zillah+Biryani+Centre%2C+Shop+52%2C+Mini+Mangalwari+Bazar+Complex%2C+Sadar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Mullaji Zillah Biryani Centre in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                    <div class="restaurant-row">
+                                        <a class="restaurant-link" href="https://www.zomato.com/nagpur/sartaj-hotel-pachpaoli" target="_blank" rel="noopener noreferrer" data-restaurant-id="sartaj-hotel">Sartaj Hotel</a>
+                                        <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Sartaj+Hotel%2C+Plot+133%2C+Azad+Nagar+Teka%2C+Pachpaoli%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Sartaj Hotel in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card" style="margin-top:8px;">
-                            <div class="card-label neutral">Delivery</div>
-                            <p>Zam Zam (Dharampeth) or Mughal Darbar are top picks.</p>
+                            <div class="card-label accent">Delivery</div>
+                            <div class="restaurant-list">
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/hotel-al-zam-zam-dharampeth" target="_blank" rel="noopener noreferrer" data-restaurant-id="hotel-al-zam-zam">Hotel Al Zam Zam</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Al+Zam+Zam%2C+near+Batukbhai+Jewellers%2C+WHC+Road%2C+Dharampeth%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Hotel Al Zam Zam in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/mughal-darbar-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="mughal-darbar">Mughal Darbar</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mughal+Darbar%2C+Shop+1+and+2%2C+Mate+Square%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Mughal Darbar in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                            </div>
                         </div>
 
                         <h3>Shawarma</h3>
-                        <div class="grid-2">
-                            <div class="card">
-                                <div class="card-label neutral">Al Lazeez</div>
-                                <p>Short walk left from Gate 1.</p>
-                            </div>
-                            <div class="card">
-                                <div class="card-label neutral">Shawarma G</div>
-                                <p>Near Zudio, right of Gate 1. Best by cycle — actually goated.</p>
+                        <div class="card">
+                            <div class="card-label accent">Halal</div>
+                            <div class="restaurant-list">
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/al-lazeez-shawarma-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="al-lazeez-shawarma">Al Lazeez Shawarma</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Lazeez+Shawarma%2C+G11+Shewalkar+Building%2C+South+Ambazari+Road%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Al Lazeez Shawarma in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/shawarma-g-1-gayatri-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="shawarma-g">Shawarma G</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Shawarma+G%2C+G-26%2C+Zone+1%2C+Gayatri+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Shawarma G in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/two-brothers-shawarma-gayatri-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="two-brothers-shawarma">Two Brothers Shawarma</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Two+Brothers+Shawarma%2C+IT+Park+Khaugalli%2C+Gayatri+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Two Brothers Shawarma in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/kings-shawarma-cuisine-2-ramdaspeth" target="_blank" rel="noopener noreferrer" data-restaurant-id="kings-shawarma-cuisine">Kings Shawarma &amp; Cuisine</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Kings+Shawarma+%26+Cuisine%2C+Shop+1%2C+Plot+280P%2C+near+Coffee+Project%2C+Central+Bazar+Road%2C+Ramdaspeth%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Kings Shawarma &amp; Cuisine in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
                             </div>
                         </div>
 
                         <h3>Halal &amp; Other Restaurants</h3>
                         <div class="grid-2">
                             <div class="card">
-                                <div class="card-label accent">Halal</div>
-                                <ul style="list-style:none; margin-top:4px; display:flex; flex-direction:column; gap:3px;">
-                                    <li>Cluckers <span class="tag">Gate 1</span></li>
-                                    <li>Mughal Darbar <span class="tag">Gate 1</span></li>
-                                    <li>Babbu Hotel <span class="tag">Mominpura</span></li>
-                                    <li>Dastarkhwan</li>
-                                    <li>Al Rehman <span class="tag">Jafar Nagar</span></li>
-                                    <li>Zauq <span class="tag">Sadar</span></li>
-                                    <li>Arabian Taj <span class="tag">Sadar</span></li>
-                                    <li>Checkers</li>
-                                </ul>
+                                <div class="card-label accent">Mughlai &amp; North Indian</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/mughal-darbar-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="mughal-darbar">Mughal Darbar</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mughal+Darbar%2C+Shop+1+and+2%2C+Mate+Square%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Mughal Darbar in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/dastarkhwan-mankapur" target="_blank" rel="noopener noreferrer" data-restaurant-id="dastarkhwan">Dastarkhwan</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Dastarkhwan%2C+Plot+3%2C+Akhil+Vishwabharti+Society%2C+Swagat+Nagar%2C+Ring+Road%2C+near+KRC+Lawn%2C+Mankapur%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Dastarkhwan in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/al-rahman-mankapur" target="_blank" rel="noopener noreferrer" data-restaurant-id="al-rahman">Al Rahman</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Rahman%2C+8+AY+Tower%2C+Mansha+Chowk%2C+Jafar+Nagar+Main+Road%2C+Mankapur%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Al Rahman in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/zauq-restaurant-chaoni" target="_blank" rel="noopener noreferrer" data-restaurant-id="zauq-restaurant">Zauq Restaurant</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Zauq+Restaurant%2C+Anjuman+Complex%2C+opposite+Haldiram%2C+Residency+Road%2C+Sadar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Zauq Restaurant in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/arabian-taj-sadar" target="_blank" rel="noopener noreferrer" data-restaurant-id="arabian-taj">Arabian Taj</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Arabian+Taj%2C+Mangalwari+Complex%2C+Wing+A%2C+opposite+Utkarsh+Nirman%2C+Sadar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Arabian Taj in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
                             </div>
                             <div class="card">
-                                <div class="card-label warm">Veg / South Indian</div>
-                                <p><strong>Uttardakshin</strong> — great South Indian breakfast. Outlets in Sadar and near Gate 1.</p>
+                                <div class="card-label accent">Tandoor &amp; Kebabs</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/babbu-hotel-mominpura" target="_blank" rel="noopener noreferrer" data-restaurant-id="babbu-hotel">Babbu Hotel</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Babbu+Hotel%2C+8+Bhagwaghar%2C+Babbu+Metro+Tower%2C+Mominpura%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Babbu Hotel in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/kareems-chaoni" target="_blank" rel="noopener noreferrer" data-restaurant-id="kareem-s">Kareem's</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Kareem%27s%2C+Ground+Floor%2C+Aman+Lifestyle+Nelson+Square%2C+Rajnagar%2C+near+Sadar%2C+Chaoni%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Kareem's in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/tkg-the-kebab-guy-chaoni" target="_blank" rel="noopener noreferrer" data-restaurant-id="tkg-the-kebab-guy">TKG - The Kebab Guy</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=TKG+-+The+Kebab+Guy%2C+Block+590%2C+Chindwara+Road%2C+Chaoni%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open TKG - The Kebab Guy in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-label accent">Fried Chicken &amp; Burgers</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/cluckers-fried-chicken-restaurant-bajaj-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="cluckers-fried-chicken">Cluckers Fried Chicken</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Cluckers+Fried+Chicken+Restaurant%2C+Plot+1%2C+near+Mate+Square%2C+Madhav+Nagar%2C+Bajaj+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Cluckers Fried Chicken in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-label accent">Sandwiches &amp; Wraps</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/subway-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="subway">Subway</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Subway%2C+Shop+62%2C+63+and+64%2C+Shewalkar+Garden%2C+Gopal+Nagar%2C+South+Ambazari+Road%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Subway in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-top:8px;">
+                            <div class="card-label warm">Veg / South Indian</div>
+                            <div class="restaurant-list">
+                                <div class="restaurant-row">
+                                    <a class="restaurant-link" href="https://www.zomato.com/nagpur/uttar-dakshin-by-naivedhyam-1-pratap-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="uttar-dakshin-by-naivedhyam">Uttar Dakshin by Naivedhyam</a>
+                                    <a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Uttar+Dakshin+by+Naivedhyam%2C+Shop+1-2%2C+Plot+92%2C+Balaji+Corporate+Park%2C+near+Durga+Mandir%2C+Pratap+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Uttar Dakshin by Naivedhyam in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+                                </div>
+                            </div>
+                            <div class="restaurant-note">Great South Indian breakfast.</div>
+                        </div>
+
+                        <h3>Burgers &amp; More</h3>
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-label accent">Burgers</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/clap-all-day-diner-bajaj-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="clap-all-day-diner">Clap - All Day Diner</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Clap+-+All+Day+Diner%2C+Plot+218%2C+South+Ambazari+Road%2C+Dharampet+Zone%2C+Bajaj+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Clap - All Day Diner in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/the-b-and-b-food-truck-civil-lines" target="_blank" rel="noopener noreferrer" data-restaurant-id="the-b-b-food-truck">The B&amp;B Food Truck</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=The+B+And+B+Food+Truck%2C+Wings+Arena%2C+near+Bishop+Cotton+School+Playground%2C+Civil+Lines%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open The B&amp;B Food Truck in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/checkers-gayatri-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="checkers">Checkers</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Checkers%2C+Plot+24%2C+IT+Park+Main+Road%2C+Gayatri+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Checkers in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-label accent">Momos &amp; Noodles</div>
+                                <div class="restaurant-list">
+                                    <div class="restaurant-row"><a class="restaurant-link" href="https://www.zomato.com/nagpur/kathmandu-jhol-momo-and-asian-street-bajaj-nagar" target="_blank" rel="noopener noreferrer" data-restaurant-id="kathmandu-jhol-momo-asian-street">Kathmandu Jhol Momo &amp; Asian Street</a><a class="map-icon-link" href="https://www.google.com/maps/search/?api=1&amp;query=Kathmandu+Jhol+Momo+and+Asian+Street%2C+Shop+3%2C+Universal+Tower+43%2C+Bajaj+Nagar%2C+Nagpur" target="_blank" rel="noopener noreferrer" aria-label="Open Kathmandu Jhol Momo &amp; Asian Street in Google Maps" title="Open in Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></a></div>
+                                </div>
                             </div>
                         </div>
 
@@ -765,6 +961,62 @@
 
         <footer>
             <p>Last updated: <span id="lastUpdated"></span> &nbsp;·&nbsp; VNIT Freshmen Guide</p>
+            <button class="gallery-admin-toggle" id="gallery-admin-toggle" type="button" aria-expanded="false" aria-controls="gallery-admin">Admin login</button>
+            <section class="gallery-admin" id="gallery-admin" hidden aria-label="Site administration">
+                <div class="gallery-admin-heading">
+                    <div><span class="gallery-admin-kicker">PRIVATE ACCESS</span><h2>Admin</h2></div>
+                    <button class="gallery-admin-close" type="button" aria-label="Close admin panel">×</button>
+                </div>
+                <form class="gallery-admin-login" id="gallery-admin-login">
+                    <p>Sign in to manage the guide.</p>
+                    <label>Email <input type="email" id="gallery-admin-email" autocomplete="username" required></label>
+                    <label>Password <input type="password" id="gallery-admin-password" autocomplete="current-password" required></label>
+                    <button class="gallery-admin-primary" type="submit">Sign in</button>
+                    <p class="gallery-admin-message" id="gallery-admin-message" role="status"></p>
+                </form>
+                <div class="gallery-admin-dashboard" id="gallery-admin-dashboard" hidden>
+                    <div class="gallery-admin-toolbar"><p id="gallery-admin-account"></p><button class="gallery-admin-link" id="gallery-admin-signout" type="button">Sign out</button></div>
+                    <form class="gallery-admin-form" id="admin-change-password">
+                        <h3>Change password</h3>
+                        <div class="gallery-admin-fields">
+                            <label>New password <input name="password" type="password" autocomplete="new-password" minlength="10" required></label>
+                            <label>Confirm password <input name="confirm" type="password" autocomplete="new-password" minlength="10" required></label>
+                        </div>
+                        <button class="gallery-admin-primary" type="submit">Save password</button>
+                    </form>
+                    <div id="admin-managed-content">
+                    <form class="gallery-admin-form" id="admin-add-user">
+                        <h3>Add an admin</h3>
+                        <p class="gallery-admin-hint">Share the temporary password privately. The new admin must change it at first sign in.</p>
+                        <div class="gallery-admin-fields">
+                            <label>Email <input name="email" type="email" autocomplete="off" required></label>
+                            <label>Temporary password <input name="password" type="password" autocomplete="new-password" minlength="10" required></label>
+                        </div>
+                        <button class="gallery-admin-primary" type="submit">Add admin</button>
+                    </form>
+                    <details class="gallery-admin-section" id="admin-occasions" open>
+                        <summary>Occasions <span class="gallery-admin-section-count" id="gallery-admin-occasion-count"></span></summary>
+                        <form class="gallery-admin-form" id="gallery-add-occasion">
+                            <h3>Add an occasion</h3>
+                            <label>Occasion name <input name="title" type="text" maxlength="100" required placeholder="e.g. Freshers’ Welcome"></label>
+                            <div class="gallery-admin-fields">
+                                <label>Date <input name="event_date" type="month" required></label>
+                                <label>Filter group <select name="tag" id="gallery-admin-tag" required></select></label>
+                            </div>
+                            <div class="gallery-admin-new-group" id="gallery-admin-new-group" hidden>
+                                <label>New filter group <input name="new_tag" id="gallery-admin-new-tag" type="text" maxlength="40" placeholder="e.g. Campus Life"></label>
+                                <button class="gallery-admin-primary" id="gallery-admin-save-group" type="button">Add filter group</button>
+                            </div>
+                            <button class="gallery-admin-primary" type="submit">Add occasion</button>
+                        </form>
+                        <div id="gallery-admin-occasion-list" class="gallery-admin-occasion-list"></div>
+                    </details>
+                    <div class="gallery-admin-existing"><h3>Restaurant suggestions</h3><p class="gallery-admin-hint">Suggestions submitted from the guide appear here for review.</p><div id="admin-request-list" class="gallery-admin-request-list"></div></div>
+                    <div class="gallery-admin-existing"><h3>Restaurant reviews</h3><div class="gallery-admin-fields"><label>Restaurant <select id="admin-review-restaurant"></select></label><label>Search reviews <input id="admin-review-search" type="search" placeholder="Name or review text"></label></div><div id="admin-review-list" class="gallery-admin-review-list"></div><button type="button" id="admin-review-more" class="gallery-admin-link" hidden>Show more reviews</button></div>
+                    </div>
+                    <p class="gallery-admin-message" id="gallery-admin-dashboard-message" role="status"></p>
+                </div>
+            </section>
         </footer>
 
     </div><!-- /wrapper -->
@@ -796,11 +1048,12 @@
                 const isOpen   = content.classList.contains('open');
 
                 accordion.querySelectorAll('.accordion-content.open').forEach(c => c.classList.remove('open'));
-                accordion.querySelectorAll('.accordion-button.open').forEach(b => b.classList.remove('open'));
+                accordion.querySelectorAll('.accordion-button.open').forEach(b => { b.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); });
 
                 if (!isOpen) {
                     content.classList.add('open');
                     btn.classList.add('open');
+                    btn.setAttribute('aria-expanded', 'true');
                 }
             });
 
