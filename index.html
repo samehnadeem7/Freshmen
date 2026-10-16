@@ -532,6 +532,172 @@
             line-height: 1.6;
         }
 
+        /* ── Senior Legacy Enhancements ── */
+        .lc-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin: 10px 0 12px;
+        }
+        .lc-highlight-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            font-size: .84rem;
+            color: var(--text-2);
+            line-height: 1.5;
+        }
+        .lc-highlight-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 3px;
+        }
+        .lc-cat-block {
+            margin-top: 14px;
+        }
+        .lc-cat-header {
+            font-size: .74rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .lc-share-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-3);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .75rem;
+            padding: 4px 9px;
+            border-radius: 99px;
+            background: var(--surface);
+            transition: all .2s;
+        }
+        .lc-share-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-bg);
+        }
+        .lc-share-btn svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── Personal Advice Guide ── */
+        .advice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .advice-card {
+            background: var(--muted-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: border-color .2s;
+        }
+        .advice-card:hover { border-color: var(--border-2); }
+        .advice-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .advice-title {
+            font-size: .95rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.35;
+        }
+        .advice-pill {
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-bg);
+            border: 1px solid rgba(45,74,62,.15);
+            padding: 3px 9px;
+            border-radius: 99px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .advice-quote {
+            font-size: .875rem;
+            color: var(--text);
+            font-style: italic;
+            border-left: 2px solid var(--accent);
+            padding-left: 10px;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .advice-details {
+            font-size: .85rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .advice-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .advice-link {
+            font-size: .8rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ── Floating Toast ── */
+        .app-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(40px);
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 9px 18px;
+            border-radius: 99px;
+            font-size: .82rem;
+            font-weight: 500;
+            box-shadow: 0 4px 16px rgba(0,0,0,.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s ease;
+            z-index: 2000;
+        }
+        .app-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
         .lc-footer {
             display: flex;
             align-items: center;
@@ -918,6 +1084,29 @@
                 </div>
             </div>
 
+            <!-- ── Personal Advice Guide ── -->
+            <div class="accordion-item" style="animation-delay:.18s">
+                <button class="accordion-button" data-target="personal-advice">
+                    <div class="btn-left">
+                        <div class="btn-icon">
+                            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        </div>
+                        <span class="btn-label">Personal Advice &amp; Curated Wisdom</span>
+                    </div>
+                    <div class="chevron">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </button>
+                <div id="personal-advice" class="accordion-content">
+                    <div class="accordion-body">
+                        <p>A personal collection of golden quotes, must-watch lectures, book notes, and foundational advice for freshmen.</p>
+                        <div class="advice-list" id="adviceList">
+                            <!-- Injected dynamically via JS / admin -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ── Senior Legacy Wall ── -->
             <div class="accordion-item" style="animation-delay:.21s">
                 <button class="accordion-button" data-target="legacy">
@@ -1011,6 +1200,32 @@
                         </form>
                         <div id="gallery-admin-occasion-list" class="gallery-admin-occasion-list"></div>
                     </details>
+                    <details class="gallery-admin-section" id="admin-personal-advice-mgmt" open>
+                        <summary>Personal Advice Guide <span class="gallery-admin-section-count" id="admin-advice-count"></span></summary>
+                        <form class="gallery-admin-form" id="admin-add-advice-form">
+                            <h3>Add Personal Advice / Resource</h3>
+                            <label>Title <input name="title" id="advice-form-title" type="text" maxlength="120" required placeholder="e.g. Focus &amp; Finding Your Niche"></label>
+                            <div class="gallery-admin-fields">
+                                <label>Category
+                                    <select name="category" id="advice-form-cat" required>
+                                        <option value="Blog Post">Blog Post</option>
+                                        <option value="Lecture">Lecture / Video</option>
+                                        <option value="Golden Quote">Golden Quote</option>
+                                        <option value="Life Lesson">Life Lesson</option>
+                                        <option value="Career &amp; Skills">Career &amp; Skills</option>
+                                    </select>
+                                </label>
+                                <label>Link / URL (optional) <input name="url" id="advice-form-url" type="url" placeholder="https://yourblog.com or YouTube"></label>
+                            </div>
+                            <label>Quote / Key Takeaway <textarea name="quote" id="advice-form-quote" rows="2" placeholder="The core sentence or quote juniors should remember..." required style="width:100%; padding:8px; font-family:inherit; font-size:.85rem; border:1px solid var(--border); border-radius:4px; margin-top:4px; box-sizing:border-box;"></textarea></label>
+                            <label>Notes / Context <textarea name="details" id="advice-form-details" rows="2" placeholder="Extra context, lecture takeaway, or explanation..." style="width:100%; padding:8px; font-family:inherit; font-size:.85rem; border:1px solid var(--border); border-radius:4px; margin-top:4px; box-sizing:border-box;"></textarea></label>
+                            <button class="gallery-admin-primary" type="submit">Publish to Guide</button>
+                        </form>
+                        <div class="gallery-admin-existing" style="margin-top:14px;">
+                            <h3>Published advice entries</h3>
+                            <div id="admin-advice-list" class="gallery-admin-request-list"></div>
+                        </div>
+                    </details>
                     <div class="gallery-admin-existing"><h3>Restaurant suggestions</h3><p class="gallery-admin-hint">Suggestions submitted from the guide appear here for review.</p><div id="admin-request-list" class="gallery-admin-request-list"></div></div>
                     <div class="gallery-admin-existing"><h3>Restaurant reviews</h3><div class="gallery-admin-fields"><label>Restaurant <select id="admin-review-restaurant"></select></label><label>Search reviews <input id="admin-review-search" type="search" placeholder="Name or review text"></label></div><div id="admin-review-list" class="gallery-admin-review-list"></div><button type="button" id="admin-review-more" class="gallery-admin-link" hidden>Show more reviews</button></div>
                     </div>
@@ -1021,13 +1236,48 @@
 
     </div><!-- /wrapper -->
 
+    <script src="personal_advice_data.js"></script>
     <script src="legacy_data.js"></script>
+    <div class="app-toast" id="appToast">Link copied to clipboard!</div>
     <script>
+        // ── Toast Helper ──
+        function showToast(msg) {
+            const toast = document.getElementById('appToast');
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
         // ── Toggle extra details ──
         function toggleExtra(id, btn) {
             const el = document.getElementById(id);
             const open = el.classList.toggle('open');
-            btn.textContent = open ? 'Show less' : 'Read more';
+            btn.textContent = open ? 'Hide full Q&A' : 'Explore full Q&A';
+        }
+
+        // ── Copy Senior Card Link ──
+        window.copySeniorLink = function(idx, name) {
+            const url = new URL(window.location.href);
+            url.hash = `senior-${idx}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url.toString()).then(() => {
+                    showToast(`Copied link to ${name}'s advice!`);
+                }).catch(() => fallbackCopy(url.toString(), name));
+            } else {
+                fallbackCopy(url.toString(), name);
+            }
+        };
+
+        function fallbackCopy(text, name) {
+            const temp = document.createElement('input');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast(`Copied link to ${name}'s advice!`);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -1039,7 +1289,7 @@
 
             // Accordion
             accordion.addEventListener('click', function (e) {
-                if (e.target.closest('.lc-toggle') || e.target.closest('.filter-chip') || e.target.closest('.search-bar')) return;
+                if (e.target.closest('.lc-toggle') || e.target.closest('.filter-chip') || e.target.closest('.search-bar') || e.target.closest('.lc-share-btn') || e.target.closest('.advice-btn')) return;
                 const btn = e.target.closest('.accordion-button');
                 if (!btn) return;
 
@@ -1057,7 +1307,7 @@
                 }
             });
 
-            // ── Dynamic Legacy Rendering ──
+            // ── Dynamic Legacy Rendering (Upgraded UX) ──
             const listEl = document.getElementById('legacyList');
             const countEl = document.getElementById('legacyCount');
             const searchInput = document.getElementById('legacySearch');
@@ -1065,8 +1315,63 @@
             const noResults = document.getElementById('noResults');
             let activeFilter = 'all';
 
-            // Known columns to skip from extras
-            const skipCols = ["Timestamp", "Name", "Batch / Graduation Year", "Branch", "Can we mention your name when this is shared with juniors?", "What is ONE thing you want to pass on to the juniors?", "Current country and company "];
+            const skipCols = [
+                "Timestamp", "Name", "Batch / Graduation Year", "Branch",
+                "Can we mention your name when this is shared with juniors?",
+                "What is ONE thing you want to pass on to the juniors?",
+                "Current country and company "
+            ];
+
+            // Helper to linkify emails, URLs, and phone numbers
+            function linkify(text) {
+                if (!text) return '';
+                return text.split(/(\s+)/).map(part => {
+                    if (part.trim() === '') return part;
+                    let emailMatch = part.match(/^([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)(.*)$/);
+                    if (emailMatch) {
+                        return `<a href="mailto:${emailMatch[1]}" style="color:var(--accent); text-decoration:underline;">${emailMatch[1]}</a>${emailMatch[2]}`;
+                    }
+                    let urlMatch = part.match(/^(https?:\/\/[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
+                    if (urlMatch) {
+                        return `<a href="${urlMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${urlMatch[1]}</a>${urlMatch[2]}`;
+                    }
+                    let wwwMatch = part.match(/^(www\.[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
+                    if (wwwMatch) {
+                        return `<a href="https://${wwwMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${wwwMatch[1]}</a>${wwwMatch[2]}`;
+                    }
+                    return part;
+                }).join('');
+            }
+
+            // Categorize Q&A into structured groups
+            function categorizeQuestions(r) {
+                const groups = {
+                    "💼 Academics, Career & Internships": [],
+                    "🏛️ Campus Life & VNIT Traditions": [],
+                    "🌱 Mindset, Lessons & Regrets": [],
+                    "📬 Connect & Reach Out": []
+                };
+
+                for (const [key, val] of Object.entries(r)) {
+                    if (skipCols.includes(key) || !val || !val.trim()) continue;
+
+                    const formatted = linkify(val.replace(/\n/g, '<br/>'));
+                    const item = { question: key, answer: formatted };
+                    const k = key.toLowerCase();
+
+                    if (k.includes("internship") || k.includes("placement") || k.includes("career") || k.includes("interview") || k.includes("project")) {
+                        groups["💼 Academics, Career & Internships"].push(item);
+                    } else if (k.includes("reach out") || k.includes("linkedin") || k.includes("email") || k.includes("number") || k.includes("helping juniors") || k.includes("leave")) {
+                        groups["📬 Connect & Reach Out"].push(item);
+                    } else if (k.includes("memory") || k.includes("club") || k.includes("experience at least once") || k.includes("preserve") || k.includes("special") || k.includes("batch")) {
+                        groups["🏛️ Campus Life & VNIT Traditions"].push(item);
+                    } else {
+                        groups["🌱 Mindset, Lessons & Regrets"].push(item);
+                    }
+                }
+
+                return groups;
+            }
 
             function renderCards() {
                 listEl.innerHTML = '';
@@ -1074,14 +1379,20 @@
                 let visible = 0;
 
                 legacyData.forEach((r, idx) => {
-                    const name = r["Name"] || "Anonymous";
+                    const name = r["Name"] || "Anonymous Senior";
                     const branch = r["Branch"] || "";
                     let batch = r["Batch / Graduation Year"] || "";
                     if (batch.endsWith(".0")) batch = batch.slice(0, -2);
                     const tip = r["What is ONE thing you want to pass on to the juniors?"] || "";
                     const company = r["Current country and company "] || "";
 
-                    // Check filters
+                    // Extract instant highlights to surface directly on card
+                    const careerTip = r["What is something you learned about internships, placements, projects or careers that you wish you knew earlier?"] || r["Is there an internship, interview, project or experience you think future batches would benefit from knowing about?"] || "";
+                    const resourceTip = r["What is one resource that genuinely helped you?"] || "";
+                    const habitTip = r["What is one habit that genuinely changed you?"] || r["What is something at VNIT that you think juniors should experience at least once?"] || r["What is one thing you learned about friendships, people, failure, confidence, money or life?"] || "";
+                    const regretTip = r["What is something you wish you had taken more seriously?"] || r["What is something you wish you had worried less about?"] || "";
+
+                    // Check filters across full submission
                     const searchString = Object.values(r).join(" ").toLowerCase();
                     const inBranch = activeFilter === 'all' || branch.toLowerCase().includes(activeFilter);
                     const inSearch = !q || searchString.includes(q);
@@ -1089,72 +1400,104 @@
 
                     visible++;
 
-                    // Linkify helper function
-                    function linkify(text) {
-                        return text.split(/(\s+)/).map(part => {
-                            if (part.trim() === '') return part;
-                            
-                            let emailMatch = part.match(/^([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)(.*)$/);
-                            if (emailMatch) {
-                                return `<a href="mailto:${emailMatch[1]}" style="color:var(--accent); text-decoration:underline;">${emailMatch[1]}</a>${emailMatch[2]}`;
-                            }
-                            
-                            let urlMatch = part.match(/^(https?:\/\/[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
-                            if (urlMatch) {
-                                return `<a href="${urlMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${urlMatch[1]}</a>${urlMatch[2]}`;
-                            }
-
-                            let wwwMatch = part.match(/^(www\.[^\s/$.?#].[^\s]*)([^a-zA-Z0-9/]*)$/);
-                            if (wwwMatch) {
-                                return `<a href="https://${wwwMatch[1]}" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:underline;">${wwwMatch[1]}</a>${wwwMatch[2]}`;
-                            }
-
-                            return part;
-                        }).join('');
+                    // Build Highlights HTML for card face
+                    let highlightsHtml = '';
+                    if (careerTip) {
+                        highlightsHtml += `
+                            <div class="lc-highlight-card">
+                                <div class="lc-highlight-tag">💼 Career / Placement Lesson</div>
+                                <div>${linkify(careerTip.replace(/\n/g, '<br/>'))}</div>
+                            </div>
+                        `;
+                    }
+                    if (resourceTip && resourceTip.length > 3) {
+                        highlightsHtml += `
+                            <div class="lc-highlight-card">
+                                <div class="lc-highlight-tag">🛠️ Resource That Genuinely Helped</div>
+                                <div>${linkify(resourceTip.replace(/\n/g, '<br/>'))}</div>
+                            </div>
+                        `;
+                    } else if (regretTip) {
+                        highlightsHtml += `
+                            <div class="lc-highlight-card">
+                                <div class="lc-highlight-tag">⚠️ Lesson / Regret</div>
+                                <div>${linkify(regretTip.replace(/\n/g, '<br/>'))}</div>
+                            </div>
+                        `;
+                    }
+                    if (habitTip && habitTip !== careerTip) {
+                        highlightsHtml += `
+                            <div class="lc-highlight-card">
+                                <div class="lc-highlight-tag">🌱 Transformative Habit / Experience</div>
+                                <div>${linkify(habitTip.replace(/\n/g, '<br/>'))}</div>
+                            </div>
+                        `;
                     }
 
-                    // Extras
-                    let extrasHtml = '';
-                    for (const [key, val] of Object.entries(r)) {
-                        if (!skipCols.includes(key)) {
-                            const label = key;
-                            let formattedVal = val.replace(/\n/g, '<br/>');
-                            formattedVal = linkify(formattedVal);
+                    // Build Categorized Full Q&A for Drawer
+                    const categorized = categorizeQuestions(r);
+                    let categorizedHtml = '';
+                    let totalAnswers = 0;
 
-                            extrasHtml += `<div class="lc-extra-item"><div class="lc-extra-label">${label}</div><div class="lc-extra-val">${formattedVal}</div></div>`;
+                    for (const [groupName, items] of Object.entries(categorized)) {
+                        if (items.length > 0) {
+                            totalAnswers += items.length;
+                            categorizedHtml += `
+                                <div class="lc-cat-block">
+                                    <div class="lc-cat-header">${groupName}</div>
+                                    <div class="lc-extras-grid">
+                                        ${items.map(it => `
+                                            <div class="lc-extra-item">
+                                                <div class="lc-extra-label">${it.question}</div>
+                                                <div class="lc-extra-val">${it.answer}</div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `;
                         }
                     }
 
                     const card = document.createElement('div');
                     card.className = 'legacy-card';
+                    card.id = `senior-${idx}`;
                     card.innerHTML = `
                         <div class="lc-head">
                             <div>
                                 <div class="lc-name">${name}</div>
                                 <div class="lc-meta">${branch} &middot; Batch ${batch}</div>
                             </div>
-                            ${company ? `<div class="lc-badge">${company.split(',')[0]}</div>` : ''}
-                        </div>
-                        ${tip ? `<div class="lc-tip">${tip}</div>` : ''}
-                        ${extrasHtml ? `
-                        <div class="lc-extras" id="dyn-ex-${idx}">
-                            <div class="lc-extras-grid">
-                                ${extrasHtml}
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                ${company ? `<div class="lc-badge">${company.split(',')[0]}</div>` : ''}
+                                <button class="lc-share-btn" onclick="copySeniorLink(${idx}, '${name.replace(/'/g, "\\'")}')" title="Copy link to this senior's advice">
+                                    <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                    <span>Share</span>
+                                </button>
                             </div>
+                        </div>
+
+                        ${tip ? `<div class="lc-tip"><strong>Core Advice:</strong> "${tip}"</div>` : ''}
+
+                        ${highlightsHtml ? `<div class="lc-highlights">${highlightsHtml}</div>` : ''}
+
+                        ${categorizedHtml ? `
+                        <div class="lc-extras" id="dyn-ex-${idx}">
+                            ${categorizedHtml}
                         </div>` : ''}
+
                         <div class="lc-footer">
-                            <span class="lc-company">${company}</span>
-                            ${extrasHtml ? `<button class="lc-toggle" onclick="toggleExtra('dyn-ex-${idx}', this)">Read more</button>` : ''}
+                            <span class="lc-company">${company || 'VNIT Nagpur'}</span>
+                            ${categorizedHtml ? `<button class="lc-toggle" onclick="toggleExtra('dyn-ex-${idx}', this)">Explore full Q&amp;A (${totalAnswers} topics)</button>` : ''}
                         </div>
                     `;
                     listEl.appendChild(card);
                 });
 
-                countEl.textContent = visible + ' senior' + (visible !== 1 ? 's' : '');
+                countEl.textContent = visible + ' senior' + (visible !== 1 ? 's' : '') + ' sharing wisdom';
                 noResults.classList.toggle('show', visible === 0);
             }
 
-            // Init
+            // Init Legacy Cards
             if (typeof legacyData !== 'undefined') {
                 renderCards();
             }
@@ -1169,6 +1512,175 @@
                     renderCards();
                 });
             });
+
+            // ── Personal Advice Guide Engine ──
+            const adviceListEl = document.getElementById('adviceList');
+            const adminAdviceListEl = document.getElementById('admin-advice-list');
+            const adminAdviceCountEl = document.getElementById('admin-advice-count');
+            const adviceForm = document.getElementById('admin-add-advice-form');
+
+            function getPersonalAdvice() {
+                const base = (typeof initialPersonalAdvice !== 'undefined') ? initialPersonalAdvice : [];
+                let custom = [];
+                try {
+                    custom = JSON.parse(localStorage.getItem('vnit_custom_advice') || '[]');
+                } catch(e) { custom = []; }
+                return [...custom, ...base];
+            }
+
+            function saveCustomAdvice(list) {
+                try {
+                    localStorage.setItem('vnit_custom_advice', JSON.stringify(list));
+                } catch(e) {}
+            }
+
+            function renderPersonalAdvice() {
+                if (!adviceListEl) return;
+                const items = getPersonalAdvice();
+                adviceListEl.innerHTML = '';
+
+                if (items.length === 0) {
+                    adviceListEl.innerHTML = '<p class="advice-empty">No personal advice entries added yet.</p>';
+                    return;
+                }
+
+                items.forEach((item, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'advice-card';
+                    card.id = `advice-${item.id || idx}`;
+                    card.innerHTML = `
+                        <div class="advice-top">
+                            <div class="advice-title">${item.title}</div>
+                            <span class="advice-pill">${item.category || 'Advice'}</span>
+                        </div>
+                        ${item.quote ? `<div class="advice-quote">"${item.quote}"</div>` : ''}
+                        ${item.details ? `<div class="advice-details">${item.details}</div>` : ''}
+                        <div class="advice-footer">
+                            <div>
+                                ${item.url ? `<a class="advice-link" href="${item.url}" target="_blank" rel="noopener noreferrer">Open Link ↗</a>` : ''}
+                            </div>
+                            <button class="lc-share-btn" onclick="copyAdviceLink('${card.id}', '${item.title.replace(/'/g, "\\'")}')">
+                                <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    `;
+                    adviceListEl.appendChild(card);
+                });
+
+                renderAdminAdviceList();
+            }
+
+            window.copyAdviceLink = function(cardId, title) {
+                const url = new URL(window.location.href);
+                url.hash = cardId;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url.toString()).then(() => {
+                        showToast(`Copied link to "${title}"!`);
+                    }).catch(() => fallbackCopy(url.toString(), title));
+                } else {
+                    fallbackCopy(url.toString(), title);
+                }
+            };
+
+            function renderAdminAdviceList() {
+                if (!adminAdviceListEl) return;
+                let custom = [];
+                try {
+                    custom = JSON.parse(localStorage.getItem('vnit_custom_advice') || '[]');
+                } catch(e) { custom = []; }
+
+                if (adminAdviceCountEl) {
+                    adminAdviceCountEl.textContent = `${custom.length} custom`;
+                }
+
+                adminAdviceListEl.innerHTML = '';
+                if (custom.length === 0) {
+                    adminAdviceListEl.innerHTML = '<p class="gallery-admin-hint">No custom advice added from admin yet. Entries added above will appear here.</p>';
+                    return;
+                }
+
+                custom.forEach((item, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'gallery-admin-request';
+                    row.style.display = 'flex';
+                    row.style.justifyContent = 'space-between';
+                    row.style.alignItems = 'center';
+                    row.style.padding = '10px 12px';
+                    row.style.borderBottom = '1px solid var(--border)';
+                    row.innerHTML = `
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:0.75rem; color:var(--text-3);">${item.category} ${item.url ? `&middot; <a href="${item.url}" target="_blank">Link</a>` : ''}</div>
+                        </div>
+                        <button class="gallery-admin-delete" style="font-size:0.75rem; padding:4px 8px; border-radius:4px;" data-del="${idx}">Delete</button>
+                    `;
+                    row.querySelector('[data-del]').addEventListener('click', function() {
+                        if (confirm(`Delete "${item.title}"?`)) {
+                            custom.splice(idx, 1);
+                            saveCustomAdvice(custom);
+                            renderPersonalAdvice();
+                            showToast('Advice entry deleted.');
+                        }
+                    });
+                    adminAdviceListEl.appendChild(row);
+                });
+            }
+
+            // Handle Admin Add Advice
+            if (adviceForm) {
+                adviceForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const title = document.getElementById('advice-form-title').value.trim();
+                    const category = document.getElementById('advice-form-cat').value;
+                    const url = document.getElementById('advice-form-url').value.trim();
+                    const quote = document.getElementById('advice-form-quote').value.trim();
+                    const details = document.getElementById('advice-form-details').value.trim();
+
+                    if (!title || !quote) return;
+
+                    const newEntry = {
+                        id: 'custom-' + Date.now(),
+                        title,
+                        category,
+                        url,
+                        quote,
+                        details,
+                        date: new Date().toISOString().slice(0, 7)
+                    };
+
+                    let custom = [];
+                    try {
+                        custom = JSON.parse(localStorage.getItem('vnit_custom_advice') || '[]');
+                    } catch(err) { custom = []; }
+
+                    custom.unshift(newEntry);
+                    saveCustomAdvice(custom);
+                    adviceForm.reset();
+                    renderPersonalAdvice();
+                    showToast('Personal advice published to guide!');
+                });
+            }
+
+            // Initial render of personal advice
+            renderPersonalAdvice();
+
+            // Auto-open and scroll to hash if present
+            if (window.location.hash) {
+                const targetHash = window.location.hash.substring(1);
+                setTimeout(() => {
+                    const el = document.getElementById(targetHash);
+                    if (el) {
+                        const parentAccordion = el.closest('.accordion-content');
+                        if (parentAccordion) {
+                            parentAccordion.classList.add('open');
+                            const btn = parentAccordion.previousElementSibling;
+                            if (btn) btn.classList.add('open');
+                        }
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 300);
+            }
 
             // Back to top
             window.addEventListener('scroll', function () {
