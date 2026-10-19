@@ -1,0 +1,562 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Salah by Heart | VNIT Guide</title><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+/* Layout: one calm reading column. Sticky tab bar, content in plain sections, cards only for interactive objects. */
+:root{
+  --bg:#F5F6F3; --surface:#FFFFFF; --ink:#14201C; --muted:#5E6B66; --line:#DCE1DC;
+  --accent:#1F5D4A; --accent-ink:#FFFFFF; --accent-soft:#E3EEE9;
+  --good:#23704A; --good-soft:#E1F1E7; --bad:#AE3B2B; --bad-soft:#F7E3DF;
+  --font-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-ar:"Amiri","Noto Naskh Arabic","Geeza Pro","Traditional Arabic",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1412; --surface:#151D1A; --ink:#E8EEEA; --muted:#93A29B; --line:#263230;
+  --accent:#7FD1AF; --accent-ink:#0E1412; --accent-soft:#1A2A24;
+  --good:#6FCF97; --good-soft:#16291F; --bad:#F09282; --bad-soft:#2E1B18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1412; --surface:#151D1A; --ink:#E8EEEA; --muted:#93A29B; --line:#263230;
+  --accent:#7FD1AF; --accent-ink:#0E1412; --accent-soft:#1A2A24;
+  --good:#6FCF97; --good-soft:#16291F; --bad:#F09282; --bad-soft:#2E1B18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:720px;margin:0 auto}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+header.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;flex-wrap:wrap}
+.brand{font-family:var(--font-display);font-size:20px;letter-spacing:.01em;white-space:nowrap;display:flex;align-items:center;gap:10px}
+.brand a{color:inherit;text-decoration:none}
+.back-home{font-family:var(--font-body);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:4px 8px;border-radius:6px;background:var(--surface)}
+.back-home:hover{background:var(--accent-soft)}
+nav{display:flex;gap:2px}
+nav button{background:none;border:0;color:var(--muted);font:500 14px var(--font-body);padding:8px 12px;border-radius:8px;cursor:pointer}
+nav button[aria-current="true"]{color:var(--accent);background:var(--accent-soft)}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(34px,7vw,52px);line-height:1.08;margin:36px 0 10px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--font-display);font-weight:400;font-size:26px;margin:40px 0 12px;text-wrap:balance}
+h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:28px 0 10px}
+p{margin:0 0 12px}
+.lede{color:var(--muted);font-size:18px;max-width:52ch}
+.ar{font-family:var(--font-ar);font-size:1.25em;line-height:1.9}
+.ar.big{font-size:30px;line-height:2.1;display:block;text-align:center}
+.tr{font-style:italic;color:var(--muted)}
+.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-block:1px solid var(--line);margin:28px 0}
+.counts div{padding:14px 8px;text-align:center;border-left:1px solid var(--line)}
+.counts div:first-child{border-left:0}
+.counts b{display:block;font-family:var(--font-display);font-weight:400;font-size:34px;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums}
+.counts span{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.note{border-left:2px solid var(--accent);padding:4px 0 4px 14px;color:var(--muted);font-size:15px;margin:18px 0}
+details.step{border-top:1px solid var(--line)}
+details.step:last-of-type{border-bottom:1px solid var(--line)}
+details.step summary{list-style:none;display:flex;align-items:center;gap:14px;padding:16px 2px;cursor:pointer}
+details.step summary::-webkit-details-marker{display:none}
+.idx{font-family:var(--font-display);font-size:22px;color:var(--muted);width:28px;flex:none;font-variant-numeric:tabular-nums}
+.st-title{flex:1;min-width:0;font-weight:500}
+.tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.rukn{color:var(--accent);border-color:var(--accent)}
+.tag.wajib{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.tag.done{background:var(--good-soft);color:var(--good);border-color:transparent}
+.step-body{padding:0 2px 22px 42px}
+.step-body ul{margin:0 0 12px;padding-left:18px}
+.step-body li{margin-bottom:6px}
+.say{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px 16px;margin:12px 0}
+.say .en{font-size:14px;color:var(--muted);margin-top:4px}
+.say .lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 16px;font:500 15px var(--font-body);cursor:pointer;color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{background:none;border:0;padding:8px 14px;font:500 14px var(--font-body);cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+details.ref{border-top:1px solid var(--line);padding:2px 0}
+details.ref summary{cursor:pointer;padding:12px 0;font-weight:500;display:flex;justify-content:space-between;gap:10px}
+details.ref ol{margin:0 0 14px;padding-left:22px}
+details.ref li{margin-bottom:4px}
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin:16px 0}
+.flash{min-height:260px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:10px;cursor:pointer}
+.flash .small{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.flash .name{font-family:var(--font-display);font-size:28px;line-height:1.2}
+.prog{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin:6px 0 4px}
+.prog i{display:block;height:100%;background:var(--accent)}
+.meta{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rv{display:flex;gap:12px;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:11px 2px;cursor:pointer;font:inherit;align-items:baseline}
+.rv .n{width:26px;flex:none;color:var(--muted);font-variant-numeric:tabular-nums}
+.rv .t{flex:1;min-width:0}
+.rv.hid .t{filter:blur(7px);user-select:none}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.mode{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-width:0}
+.mode:hover{border-color:var(--accent)}
+.mode b{font-family:var(--font-display);font-weight:400;font-size:20px}
+.mode span{font-size:14px;color:var(--muted)}
+.mode.primary{background:var(--accent);border-color:var(--accent)}
+.mode.primary b,.mode.primary span{color:var(--accent-ink)}
+.q{font-family:var(--font-display);font-size:23px;line-height:1.3;margin:6px 0 16px;text-wrap:balance}
+.subject{display:block;margin-top:10px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:var(--font-body);font-size:17px;color:var(--ink)}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:500 15px/1.4 var(--font-body);cursor:pointer;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.ok,.chip.ok{background:var(--good-soft);border-color:var(--good);color:var(--ink)}
+.opt.no,.chip.no{background:var(--bad-soft);border-color:var(--bad);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:8px 14px;font:500 14px/1.35 var(--font-body);cursor:pointer;color:var(--ink);text-align:left;max-width:100%}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.chip.miss{border-style:dashed;border-color:var(--accent);background:var(--accent-soft)}
+.chip.ar{font-size:22px;line-height:1.5}
+.slot{min-height:56px;border:1px dashed var(--line);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ol-chip{display:flex;gap:8px;align-items:center}
+.ol-chip b{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pairs .col{display:grid;gap:8px;align-content:start;min-width:0}
+.pairs .opt{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.pairs .opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.badge{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.fb{margin-top:16px;border-radius:10px;padding:14px 16px;font-size:15px}
+.fb.good{background:var(--good-soft)}
+.fb.bad{background:var(--bad-soft)}
+.fb b{display:block;margin-bottom:2px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.score{font-family:var(--font-display);font-size:64px;line-height:1;color:var(--accent);margin:8px 0}
+.bar-row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center;margin:10px 0;font-size:14px}
+.bar-row .prog{margin:0;height:8px}
+.miss-item{border-top:1px solid var(--line);padding:12px 0;font-size:15px}
+@media (max-width:520px){.step-body{padding-left:2px}.bar-row{grid-template-columns:100px 1fr 44px}.pairs{gap:6px}.counts b{font-size:28px}}
+@media (prefers-reduced-motion:no-preference){.prog i{transition:width .3s}}
+</style>
+
+<header class="bar"><div class="wrap">
+  <div class="brand">
+    <a href="index.html" class="back-home">← Guide</a>
+    <span>Salah by Heart</span>
+  </div>
+  <nav id="nav" aria-label="Sections">
+    <button data-act="tab" data-t="learn">Learn</button>
+    <button data-act="tab" data-t="memorise">Memorise</button>
+    <button data-act="tab" data-t="quiz">Quiz</button>
+    <button data-act="tab" data-t="progress">Progress</button>
+  </nav>
+</div></header>
+<div class="wrap"><main id="app"></main></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var AR=function(t){return '<span class="ar" lang="ar" dir="rtl">'+t+'</span>'};
+var shuffle=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a};
+var hash=function(s){var h=7;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0}return h};
+
+/* ---------- storage ---------- */
+var store={d:{learned:{},known:{},stats:{},missed:{},tab:'learn'},
+  load:function(){try{var x=localStorage.getItem('salah-by-heart-v1');if(x){var o=JSON.parse(x);for(var k in o)this.d[k]=o[k]}}catch(e){}},
+  save:function(){try{localStorage.setItem('salah-by-heart-v1',JSON.stringify(this.d))}catch(e){}}};
+store.load();
+
+/* ---------- source lists (from the document) ---------- */
+var SHART=["Islam","Intellect","Reaching al-tamyīz (seven years of age)","Tahārah (from both major and minor states of impurity)","Removal of najāsah from body, clothing and place of prayer","Facing the direction of the Qiblah","Covering the ʿawrah","Entering the time of the Salah","Niyyah"];
+var ARKAN=["Qiyām (standing)","Takbīratul iḥrām","Surah al-Fātiḥa","Rukūʿ","Rising from rukūʿ","Sujūd","Rising from sujūd","Sitting between the sajdatayn (two prostrations)","Al-Tamaʾnīnah (tranquility)","The last tashahhud","Sitting for the last tashahhud","Sending salawāt upon the Prophet ﷺ","Taslīmatayn (the two taslīms)","Tartīb (doing all of these actions in order)"];
+var WAJIB=["Takbīrāt other than takbīratul iḥrām","Tasmīʿ (to say "+AR("سمع الله لمن حمده")+")","Tahmīd (to say "+AR("ربنا ولك الحمد")+")","Tasbīh in rukūʿ","Tasbīh in sujūd","To say "+AR("رب اغفر لي"),"The first tashahhud","Sitting for the first tashahhud"];
+var MAKRUH=["Putting forearms on the ground during sujūd","Sitting in the form of al-iqʿāʾ","Fiddling","Looking around","Closing eyes","Looking up","Interlacing fingers","Cracking knuckles","Putting hands on hips","Yawning","Stretching","Having hair tied up","Pulling up sleeves or having them wrapped up","Praying in the direction of an image, fire, a person’s face, a person sleeping or talking, a kāfir or anything distracting","Repeating al-Fātiḥa","Leaning on something","Praying in a state which prevents complete concentration"];
+var INVALID=["All things which necessitate wuḍūʾ or ghusl","Leaving off a wājib intentionally","Leaving off a rukn","Najāsah occurring on the body, clothes or place of prayer, if not removed immediately","Turning the whole body away from the Qiblah","Uncovering of the ʿawrah","Adding an additional physical rukn intentionally","Changing the order of the arkān intentionally","Taslīm before completing the prayer","Changing the meaning of the Qurʾān during recitation intentionally","Cancelling niyyah","Laughing audibly","Speaking","Praying in front of the Imam","Eating or drinking intentionally","A lot of continuous action which is not from Salah"];
+var SUNNAH=["Sitting in tawarruk in the last tashahhud","Making the duʿāʾ "+AR("أعوذ بالله من عذاب جهنم")+" after the salawāt","Saying the adhkār after Salah","Turning to the right first, then the left, while saying the taslīm","Counting the 33s with the fingers of the right hand","The Imam turning to face the congregation after Salah (unless women are present)"];
+var LISTS={shurut:{n:"Shurūṭ · conditions",a:SHART},arkan:{n:"Arkān · pillars",a:ARKAN},wajibat:{n:"Wājibāt · obligations",a:WAJIB},makruh:{n:"Disliked actions",a:MAKRUH},invalid:{n:"What invalidates Salah",a:INVALID}};
+
+/* ---------- recitations ---------- */
+var RECS=[
+ {id:"tasmi",name:"Tasmīʿ",when:"Rising from rukūʿ · wājib, for other than the maʾmūm",ar:"سمع الله لمن حمده",tr:"Samiʿa-llāhu liman ḥamidah",en:"Allah hears whoever praises Him."},
+ {id:"tahmid",name:"Tahmīd",when:"After the tasmīʿ · wājib",ar:"ربنا ولك الحمد",tr:"Rabbanā wa lakal-ḥamd",en:"Our Lord, and to You belongs all praise."},
+ {id:"ighfir",name:"Between the two prostrations",when:"Sitting between the sajdatayn · wājib",ar:"رب اغفر لي",tr:"Rabbi-ghfir lī",en:"My Lord, forgive me."},
+ {id:"tashahhud",name:"The complete tashahhud",when:"Last sitting of every prayer (and the first sitting in prayers of three or four rakʿāt)",ar:"التحيات لله والصلوات والطيبات، السلام عليك أيها النبي ورحمة الله وبركاته، السلام علينا وعلى عباد الله الصالحين، أشهد أن لا إله إلا الله، وأشهد أن محمدا عبده ورسوله",tr:"At-taḥiyyātu lillāhi waṣ-ṣalawātu waṭ-ṭayyibāt. As-salāmu ʿalayka ayyuhan-nabiyyu wa raḥmatullāhi wa barakātuh. As-salāmu ʿalaynā wa ʿalā ʿibādillāhiṣ-ṣāliḥīn. Ash-hadu an lā ilāha illallāh, wa ash-hadu anna Muḥammadan ʿabduhu wa rasūluh.",en:"All greetings, prayers and good words are for Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and upon the righteous servants of Allah. I bear witness that there is no god but Allah, and I bear witness that Muhammad is His servant and messenger."},
+ {id:"tashmin",name:"The tashahhud · minimum",when:"The least that fulfils the obligation",ar:"التحيات لله، سلام عليك أيها النبي ورحمة الله، سلام علينا وعلى عباد الله الصالحين، أشهد أن لا إله إلا الله وأن محمدا رسول الله",tr:"At-taḥiyyātu lillāh. Salāmun ʿalayka ayyuhan-nabiyyu wa raḥmatullāh. Salāmun ʿalaynā wa ʿalā ʿibādillāhiṣ-ṣāliḥīn. Ash-hadu an lā ilāha illallāh wa anna Muḥammadan rasūlullāh.",en:"The same testimony in its shortest valid form. The document also allows “ʿabduhu wa rasūluh” at the end."},
+ {id:"salawat",name:"Salawāt upon the Prophet ﷺ",when:"After the last tashahhud · rukn",ar:"اللهم صل على محمد وعلى آل محمد، كما صليت على آل إبراهيم إنك حميد مجيد، وبارك على محمد وعلى آل محمد، كما باركت على آل إبراهيم إنك حميد مجيد",tr:"Allāhumma ṣalli ʿalā Muḥammad wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā āli Ibrāhīm innaka Ḥamīdun Majīd. Wa bārik ʿalā Muḥammad wa ʿalā āli Muḥammad, kamā bārakta ʿalā āli Ibrāhīm innaka Ḥamīdun Majīd.",en:"O Allah, send prayers upon Muhammad and the family of Muhammad, as You sent prayers upon the family of Ibrahim; You are Praiseworthy and Glorious. And bless Muhammad and the family of Muhammad, as You blessed the family of Ibrahim; You are Praiseworthy and Glorious."},
+ {id:"salmin",name:"Salawāt · minimum",when:"The least that fulfils the obligation",ar:"اللهم صل على محمد",tr:"Allāhumma ṣalli ʿalā Muḥammad",en:"O Allah, send prayers upon Muhammad."},
+ {id:"dua",name:"Duʿāʾ before the taslīm",when:"Recommended, after the salawāt",ar:"أعوذ بالله من عذاب جهنم ومن عذاب القبر ومن فتنة المحيا والممات ومن فتنة المسيح الدجال، اللهم إني أعوذ بك من المأثم والمغرم",tr:"Aʿūdhu billāhi min ʿadhābi jahannam, wa min ʿadhābil-qabr, wa min fitnatil-maḥyā wal-mamāt, wa min fitnatil-Masīḥid-Dajjāl. Allāhumma innī aʿūdhu bika minal-maʾthami wal-maghram.",en:"I seek refuge in Allah from the punishment of Hell, from the punishment of the grave, from the trials of life and death, and from the trial of the False Messiah. O Allah, I seek refuge in You from sin and debt."},
+ {id:"taslim",name:"The taslīm",when:"Said twice, right then left · rukn",ar:"السلام عليكم ورحمة الله",tr:"As-salāmu ʿalaykum wa raḥmatullāh",en:"Peace be upon you and the mercy of Allah."},
+ {id:"istighfar",name:"First dhikr after Salah",when:"Three times",ar:"أستغفر الله",tr:"Astaghfirullāh",en:"I seek forgiveness from Allah."},
+ {id:"antas",name:"Second dhikr after Salah",when:"After the istighfār",ar:"اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام",tr:"Allāhumma antas-salāmu wa minkas-salām, tabārakta yā dhal-jalāli wal-ikrām.",en:"O Allah, You are Peace and from You is peace; blessed are You, O Possessor of Majesty and Honour."},
+ {id:"tasbih",name:"The thirty-three",when:"Grouped together, thirty-three times each",ar:"سبحان الله والحمد لله والله أكبر",tr:"Subḥānallāh, walḥamdulillāh, wallāhu akbar",en:"Glory be to Allah, praise be to Allah, Allah is the Greatest."},
+ {id:"tahlil",name:"The closing tahlīl",when:"After the thirty-three counts",ar:"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير",tr:"Lā ilāha illallāhu waḥdahū lā sharīka lah, lahul-mulku wa lahul-ḥamd, wa huwa ʿalā kulli shayʾin qadīr.",en:"None has the right to be worshipped but Allah alone, without partner. His is the dominion and His is the praise, and He has power over all things."}
+];
+
+/* ---------- learn steps ---------- */
+function say(r){return '<div class="say"><div class="lbl">'+r.name+'</div><span class="ar big" lang="ar" dir="rtl">'+r.ar+'</span><div class="tr">'+r.tr+'</div><div class="en">'+r.en+'</div></div>'}
+function rec(id){return RECS.filter(function(r){return r.id===id})[0]}
+function ul(a){return '<ul>'+a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
+var STEPS=[
+ {id:"s1",t:"Be ready: the nine conditions",tag:"Shart",cls:"",body:ul(["Salah is valid from the age of seven but not obligatory until puberty.","Nine shurūṭ must be met: "+SHART.join("; ")+".","ʿAwrah in Salah: for a man above 10, and a girl from 7 until puberty, it is between the navel and knees. A woman after puberty covers her whole body including hands and feet, except her face. A boy from 7 to 10 covers the front and back private parts.","A man must also cover at least one of his shoulders in obligatory prayers."])},
+ {id:"s2",t:"Stand and begin with the takbīr",tag:"Rukn",cls:"rukn",body:ul(["Qiyām (standing) is a rukn in obligatory prayers.","Takbīratul iḥrām is a rukn. It is the first takbīr; every later takbīr is only wājib."])},
+ {id:"s3",t:"Recite Surah al-Fātiḥa",tag:"Rukn",cls:"rukn",body:ul(["A rukn for everyone except the maʾmūm (the one following the Imam).","Repeating al-Fātiḥa is disliked, unless necessary, for example if it was read incorrectly the first time."])},
+ {id:"s4",t:"Bow in rukūʿ",tag:"Rukn",cls:"rukn",body:ul(["Rukūʿ is a rukn.","The tasbīḥ in rukūʿ is wājib, and so is the takbīr you say moving into it.","Al-tamaʾnīnah (stillness for at least a moment) is a rukn in every movement."])},
+ {id:"s5",t:"Rise from rukūʿ",tag:"Rukn",cls:"rukn",body:ul(["Rising from rukūʿ is a rukn.","The tasmīʿ is wājib for everyone except the maʾmūm, and the tahmīd is wājib."])+say(rec("tasmi"))+say(rec("tahmid"))},
+ {id:"s6",t:"Go down into sujūd",tag:"Rukn",cls:"rukn",body:ul(["Sujūd and rising from sujūd are both arkān.","The tasbīḥ in sujūd is wājib.","Putting the forearms on the ground in sujūd is disliked."])},
+ {id:"s7",t:"Sit between the two prostrations",tag:"Rukn",cls:"rukn",body:ul(["The sitting between the sajdatayn is a rukn.","Saying “Rabbi-ghfir lī” is wājib. Then the second sujūd follows."])+say(rec("ighfir"))},
+ {id:"s8",t:"The first tashahhud and standing for the next rakʿah",tag:"Wajib",cls:"wajib",body:ul(["In a prayer of three or four rakʿāt there are two tashahhuds. The first tashahhud and the sitting for it are wājib.","You then get up for the next rakʿah saying Allāhu akbar. It is not recommended to raise your hands here.","If a prayer has only one tashahhud, that tashahhud is a rukn.","Witr prayed as three rakʿāt in one go has a single tashahhud at the end. Sitting in the second rakʿah as in Maghrib is disliked."])},
+ {id:"s9",t:"The last tashahhud",tag:"Rukn",cls:"rukn",body:ul(["The last tashahhud and sitting for it are arkān.","It is recommended to sit in tawarruk: left foot out on the right side, sit on the floor, right foot upright with its toes towards the Qiblah."])+say(rec("tashahhud"))+say(rec("tashmin"))},
+ {id:"s10",t:"Send salawāt upon the Prophet ﷺ",tag:"Rukn",cls:"rukn",body:ul(["After the last tashahhud this is a rukn. Say it in the second part of the last rakʿah, whichever rakʿah that is.","One may also say "+AR("على إبراهيم وعلى آل إبراهيم")+" instead of “on the family of Ibrahim”, though the full version is preferred."])+say(rec("salawat"))+say(rec("salmin"))},
+ {id:"s11",t:"Make duʿāʾ",tag:"Sunnah",cls:"",body:ul(["It is recommended to say this duʿāʾ after the salawāt.","After it you may make any other duʿāʾ you wish, and likewise in sujūd.","Duʿāʾ for worldly enjoyments, such as a beautiful wife, a big house or a high-paying salary, invalidates the prayer. Asking for general blessings such as halāl provisions and good health is permissible."])+say(rec("dua"))},
+ {id:"s12",t:"Finish with the taslīm",tag:"Rukn",cls:"rukn",body:ul(["Two taslīms are a rukn in an obligatory prayer. In a nafl prayer one is the rukn and the second is recommended.","Dropping, changing or adding a letter invalidates it. Adding “wa barakātuh” is permissible, though leaving it off is better.","You must be sitting. Turn to the right first, then the left, and turn further to the left."])+say(rec("taslim"))},
+ {id:"s13",t:"After Salah: the adhkār",tag:"Sunnah",cls:"",body:ul(["Istighfār three times, then “Allāhumma antas-salām…”.","The Imam turns to face the congregation, unless women are present, in which case he waits for them to leave.","Then the thirty-three of each, counted with the fingers of the right hand, then the tahlīl.","Finally Surah al-Ikhlās, al-Falaq, an-Nās and Āyatul Kursī, once each. The document notes there are other recommended adhkār it left out."])+say(rec("istighfar"))+say(rec("antas"))+say(rec("tasbih"))+say(rec("tahlil"))},
+ {id:"s14",t:"Notes on a woman’s prayer",tag:"Note",cls:"",body:ul(["It is exactly like a man’s, except that she does not spread out her limbs in sujūd.","When sitting she puts both feet to the right side and sits on the ground (the preferred method), or sits cross-legged."])}
+];
+
+/* ---------- question pool ---------- */
+var POOL=[];
+function add(q){POOL.push(q)}
+var CATS=["Condition (shart)","Pillar (rukn)","Obligation (wājib)","Recommended (sunnah)","Disliked (makrūh)","Invalidates the Salah"];
+[[SHART,0],[ARKAN,1],[WAJIB,2],[SUNNAH,3],[MAKRUH,4],[INVALID,5]].forEach(function(p){
+  p[0].forEach(function(t,i){
+    if(t==="Leaning on something")return;
+    add({key:"c"+p[1]+"."+i,kind:"rulings",type:"mcq",fixed:true,q:"What is this in Salah?<span class=\"subject\">"+t+"</span>",opts:CATS,a:p[1],why:"It is classed as: "+CATS[p[1]]+"."});
+  });
+});
+function fact(key,q,right,wrong,why){add({key:"f"+key,kind:"facts",type:"mcq",q:q,opts:[right].concat(wrong),a:0,why:why})}
+fact(1,"How many conditions (shurūṭ) must be met for a valid Salah?","9",["7","8","10","12"],"There are nine shurūṭ.");
+fact(2,"How many arkān (pillars) does Salah have?","14",["8","9","12","16"],"There are fourteen arkān.");
+fact(3,"How many wājibāt (obligations) does Salah have?","8",["5","7","9","14"],"There are eight wājibāt. Everything else is sunnah.");
+fact(4,"From what age is Salah valid, though not yet obligatory?","Seven",["Five","Ten","Twelve","Fifteen"],"Salah is valid from seven but not obligatory until puberty.");
+fact(5,"What is the ʿawrah in Salah for a man above the age of 10?","Between the navel and the knees",["Shoulders to knees","Only the private parts","Chest to ankles"],"Navel to knees. In obligatory prayers he must also cover at least one shoulder.");
+fact(6,"What is the ʿawrah in Salah for a boy from 7 to 10?","The front and back private parts",["Navel to knees","Shoulders to knees","The whole body"],"For a male aged 7 to 10 it is the front and back private parts.");
+fact(7,"What is the ʿawrah in Salah for a girl from age 7 until puberty?","Between the navel and the knees",["Her whole body except the face","The front and back private parts","Only her hair"],"A female from 7 until puberty has the same ʿawrah as a man above 10: navel to knees.");
+fact(8,"What must a woman after puberty cover in Salah?","Her whole body including hands and feet, except her face",["Navel to knees","Everything except hands and feet","Only her hair and neck"],"Her whole body, including hands and feet, except for her face.");
+fact(9,"What is extra for a man’s covering in obligatory prayers?","He must cover at least one shoulder",["He must cover his head","He must cover both arms","Nothing extra"],"It is a condition that a man covers at least one shoulder in obligatory prayers.");
+fact(10,"If a prayer has only one tashahhud, what is its status?","A rukn",["Wājib","Sunnah","Disliked"],"A prayer with only one tashahhud: that tashahhud is a rukn.");
+fact(11,"In a prayer of three or four rakʿāt, what is the status of the first tashahhud?","Wājib",["Rukn","Sunnah","Makrūh"],"The first is wājib. The second, in the last rakʿah, is a rukn.");
+fact(12,"In a prayer of three or four rakʿāt, what is the status of the second (last) tashahhud?","Rukn",["Wājib","Sunnah","Makrūh"],"The last tashahhud is a rukn.");
+fact(13,"Witr is prayed as three rakʿāt in one go. How many tashahhuds are there?","One, at the end",["Two","None","One, after the first rakʿah"],"There is one tashahhud at the end. Praying it like Maghrib, sitting in the second rakʿah, is makrūh.");
+fact(14,"What do you say when getting up for the next rakʿah after the first tashahhud?","Allāhu akbar, without raising your hands",["Allāhu akbar, raising your hands","Nothing at all","Subḥānallāh"],"You get up saying Allāhu akbar. Raising the hands here is not recommended.");
+fact(15,"Which describes sitting in tawarruk?","Left foot out on the right side, sit on the floor, right foot upright with toes to the Qiblah",["Sit on both heels with feet together","Sit cross-legged","Both feet out to the left, sit on the floor"],"That is the form of al-tawarruk, recommended in the last tashahhud.");
+fact(16,"What is the minimum salawāt that fulfils the obligation?",AR("اللهم صل على محمد"),[AR("وبارك على محمد"),AR("كما صليت على آل إبراهيم"),AR("إنك حميد مجيد")],"The minimum is “Allāhumma ṣalli ʿalā Muḥammad”.");
+fact(17,"What is the status of sending salawāt upon the Prophet ﷺ in the last sitting?","Rukn",["Wājib","Sunnah","Makrūh"],"It is a rukn of Salah.");
+fact(18,"What does making duʿāʾ for worldly enjoyments, such as a big house, do to the prayer?","It invalidates it",["It is disliked only","It is recommended","Nothing"],"Duʿāʾ for worldly enjoyments in Salah invalidates the prayer.");
+fact(19,"Asking in Salah for halāl provisions and good health is…","Permissible",["Invalidating","Disliked","Obligatory"],"General blessings of the dunyā such as halāl provisions and good health are permissible.");
+fact(20,"How many taslīms are a rukn in an obligatory prayer?","Two",["One","Three","None"],"Saying it twice is a rukn in an obligatory prayer.");
+fact(21,"In a nafl prayer, how many taslīms are a rukn?","One (the second is recommended)",["Two","Three","None"],"Once is the rukn in a nafl prayer, and then the second is recommended.");
+fact(22,"What happens if a letter is dropped from the taslīm?","It invalidates it",["Nothing, if unintentional only","It is only disliked","It is recommended"],"Dropping, changing or adding a letter invalidates the taslīm.");
+fact(23,"Adding “wa barakātuh” to the taslīm is…","Permissible, though leaving it off is better",["Invalidating","Obligatory","Disliked and invalidating"],"It is permissible to add, though leaving it off is better.");
+fact(24,"What is a condition for the taslīm?","You must be sitting down",["You must be standing","You must raise your hands","You must say it aloud"],"It is conditioned that the person be sitting down for the taslīm.");
+fact(25,"How do you turn while saying the taslīm?","Right first, then left, with more turn to the left",["Left first, then right","Equally both sides","Only to the right"],"Turn right first then left, and when turning to the left it should be more than to the right.");
+fact(26,"What is different about a woman’s sujūd?","She does not spread out her limbs",["She does not say the tasbīḥ","She prostrates once","She stays standing"],"Otherwise her prayer is exactly like a man’s.");
+fact(27,"How does a woman sit?","Both feet to the right side on the ground (preferred), or cross-legged",["Same as a man in tawarruk","On her heels only","Left foot out, right foot upright"],"Both feet to the right side while sitting on the ground, or cross-legged.");
+fact(28,"What is the first dhikr recommended after Salah?","Astaghfirullāh, three times",["Subḥānallāh, 33 times","Āyatul Kursī","Lā ilāha illallāh, once"],"Istighfār three times, then “Allāhumma antas-salām…”.");
+fact(29,"How many times do you say each of subḥānallāh, alḥamdulillāh and Allāhu akbar after Salah?","33 each",["10 each","25 each","100 each"],"They are grouped together, thirty-three times each.");
+fact(30,"With what are the thirty-three counted?","The fingers of the right hand",["The fingers of the left hand","A counter only","Both hands"],"It is recommended to count them with the fingers of the right hand.");
+fact(31,"What should the Imam do after Salah when women are present?","Wait for them to leave before turning to face the congregation",["Turn at once","Leave immediately","Make duʿāʾ aloud"],"He turns round unless women are present, in which case he waits for them to leave.");
+fact(32,"Which surahs and verse are recommended after Salah, once each?","Al-Ikhlās, al-Falaq, an-Nās and Āyatul Kursī",["Al-Fātiḥa and al-Baqarah","Yā-Sīn and al-Mulk","Al-Kāfirūn and al-Kawthar"],"Al-Ikhlās, al-Falaq, an-Nās and Āyatul Kursī, one time each.");
+fact(33,"What is al-tamaʾnīnah?","Staying still for at least a moment after completing every movement",["Reciting slowly","Praying in a quiet place","Closing the eyes"],"Stillness after each movement, for example after going into rukūʿ.");
+fact(34,"Qiyām is a rukn in…","Obligatory prayers",["All prayers without exception","Only Jumuʿah","Only nafl prayers"],"The document notes qiyām is a rukn in obligatory prayers.");
+fact(35,"Reciting al-Fātiḥa is a rukn for…","Everyone other than the maʾmūm",["Only the Imam","Everyone including the maʾmūm","Only the one praying alone"],"It is a rukn for other than the maʾmūm.");
+fact(36,"When is repeating al-Fātiḥa permitted, though otherwise disliked?","When necessary, such as when it was read incorrectly the first time",["Whenever you feel like it","In every rakʿah","Never"],"Repeating is disliked unless necessary.");
+fact(37,"What if someone leans so heavily on something that they would fall without it?","The Salah is not valid, as they are not considered to be standing",["Disliked but valid","Perfectly fine","Valid only in nafl"],"Heavy leaning means they are not considered standing, so the Salah is not valid.");
+fact(38,"Praying while needing the bathroom or while hungry is…","Disliked, as it prevents complete concentration",["Invalidating","Recommended","Obligatory"],"Praying in a state which prevents complete concentration is disliked.");
+fact(39,"Speaking invalidates Salah when…","Two distinct letters are uttered",["Any single letter is uttered","Only a full sentence is said","Only if it is loud"],"Two distinct letters invalidate it. Likewise other noises, except when excused.");
+fact(40,"Eating or drinking intentionally…","Invalidates Salah, though a small drink is permissible in nafl",["Is disliked only","Is permissible in obligatory prayers","Is recommended"],"A small drink in nafl prayers is permissible.");
+fact(41,"Najāsah gets on your clothes during Salah. When does it invalidate the prayer?","If it is not removed immediately",["Always, at once","Never","Only if it is on the floor"],"Najāsah on the body, clothes or place of prayer invalidates if not removed immediately.");
+fact(42,"When does unintentional uncovering of the ʿawrah invalidate Salah?","When the uncovered amount is a lot and continues for a relatively long time",["Always","Never","Only for women"],"Intentional uncovering invalidates unrestrictedly. Unintentional only in that case.");
+fact(43,"Leaving off a rukn may invalidate…","The whole Salah, or in some cases only that rakʿah",["Only the sujūd","Nothing","Only the next prayer"],"In cases this may invalidate the whole Salah and in cases only the rakʿah.");
+fact(44,"Which of these is a physical rukn that, if added intentionally, invalidates Salah?","Sujūd",["Tasbīḥ","Duʿāʾ","Taslīm"],"Physical arkān are qiyām, rukūʿ, sujūd and julūs (sitting).");
+fact(45,"All the parts of Salah that are not shurūṭ, arkān or wājibāt are…","Sunan (recommendations)",["Makrūh","Arkān","Invalidating"],"The remaining parts of Salah are all sunan.");
+fact(46,"What is the tasmīʿ?","Saying “Samiʿa-llāhu liman ḥamidah”",["Saying “Rabbanā wa lakal-ḥamd”","Saying “Rabbi-ghfir lī”","Saying the taslīm"],"The tasmīʿ is wājib, for other than the maʾmūm.");
+fact(47,"What is said sitting between the two prostrations?","Rabbi-ghfir lī",["Samiʿa-llāhu liman ḥamidah","Astaghfirullāh","As-salāmu ʿalaykum"],"“Rabbi-ghfir lī” is wājib.");
+fact(48,"Is the first takbīr (takbīratul iḥrām) a rukn or a wājib?","Rukn",["Wājib","Sunnah","Makrūh"],"Takbīratul iḥrām is a rukn. Takbīrāt other than it are wājib.");
+
+/* lists: build the set */
+function setQ(key,q,pool,ok){add({key:"s"+key,kind:"lists",type:"set",q:q,pool:pool,ok:ok})}
+var NOTSHART=["Praying in congregation","Praying inside a mosque","Reciting a surah after al-Fātiḥa","Wearing a head covering","Raising the hands at takbīr"];
+setQ(1,"Select the <b>nine conditions</b> (shurūṭ) of Salah.",SHART.concat(NOTSHART),SHART);
+setQ(2,"Select the <b>eight wājibāt</b>.",WAJIB.concat(["Rukūʿ","Sujūd","Takbīratul iḥrām","Al-Tamaʾnīnah (tranquility)","Surah al-Fātiḥa","Taslīmatayn (the two taslīms)"]),WAJIB);
+setQ(3,"Select the <b>fourteen arkān</b> (pillars).",ARKAN.concat([WAJIB[0],WAJIB[3],WAJIB[4],WAJIB[6],WAJIB[7],"Niyyah"]),ARKAN);
+var MK=MAKRUH.filter(function(x){return x!=="Leaning on something"&&x!=="Repeating al-Fātiḥa"});
+[[0,6],[5,11],[10,16]].forEach(function(r,i){
+  var inv=INVALID.slice(r[0],r[0]+6), mk=MK.slice(r[0],r[0]+6);
+  setQ(4+i,"Select only the actions that <b>invalidate</b> the Salah. The others are merely disliked.",inv.concat(mk),inv);
+});
+
+/* order */
+function ordQ(key,q,items,rtl){add({key:"o"+key,kind:"lists",type:"order",q:q,items:items,rtl:!!rtl})}
+ordQ(1,"Put the <b>fourteen arkān</b> in the order given in the text.",ARKAN);
+ordQ(2,"Put the prayer in order, from standing up to the taslīm.",["Stand (qiyām)","Takbīratul iḥrām","Recite al-Fātiḥa","Rukūʿ","Rise from rukūʿ","First sujūd","Sit between the two prostrations","Second sujūd","The last tashahhud","Salawāt upon the Prophet ﷺ","Duʿāʾ before the taslīm","Taslīm"]);
+ordQ(3,"Put the adhkār after Salah in order.",["Astaghfirullāh ×3","Allāhumma antas-salām…","The Imam turns to the congregation","Subḥānallāh, alḥamdulillāh, Allāhu akbar ×33 each","Lā ilāha illallāhu waḥdahū…","Al-Ikhlās, al-Falaq, an-Nās, Āyatul Kursī"]);
+
+/* arabic: clauses */
+var CLAUSES=[
+ {src:"the tashahhud",c:["التحيات لله والصلوات والطيبات","السلام عليك أيها النبي ورحمة الله وبركاته","السلام علينا وعلى عباد الله الصالحين","أشهد أن لا إله إلا الله","وأشهد أن محمدا عبده ورسوله"]},
+ {src:"the salawāt",c:["اللهم صل على محمد وعلى آل محمد","كما صليت على آل إبراهيم إنك حميد مجيد","وبارك على محمد وعلى آل محمد","كما باركت على آل إبراهيم إنك حميد مجيد"]},
+ {src:"the duʿāʾ before the taslīm",c:["أعوذ بالله من عذاب جهنم","ومن عذاب القبر","ومن فتنة المحيا والممات","ومن فتنة المسيح الدجال","اللهم إني أعوذ بك من المأثم والمغرم"]},
+ {src:"the dhikr after Salah",c:["اللهم أنت السلام","ومنك السلام","تباركت يا ذا الجلال والإكرام","لا إله إلا الله وحده لا شريك له","له الملك وله الحمد","وهو على كل شيء قدير"]}
+];
+var WORDS=[];CLAUSES.forEach(function(g){g.c.forEach(function(c){c.split(" ").forEach(function(w){if(w.length>2&&WORDS.indexOf(w)<0)WORDS.push(w)})})});
+CLAUSES.forEach(function(g,gi){g.c.forEach(function(c,ci){
+  var w=c.split(" ");
+  if(w.length>=3){
+    var idx=hash(c)%w.length, right=w[idx];
+    var wrong=shuffle(WORDS.filter(function(x){return w.indexOf(x)<0})).slice(0,3);
+    var shown=w.map(function(x,i){return i===idx?"＿＿＿":x}).join(" ");
+    add({key:"az"+gi+"."+ci,kind:"arabic",type:"mcq",q:"Fill the missing word, from "+g.src+".<span class=\"subject\"><span class=\"ar big\" lang=\"ar\" dir=\"rtl\">"+shown+"</span></span>",opts:[AR(right)].concat(wrong.map(AR)),a:0,why:"The full line: "+AR(c)});
+    add({key:"aw"+gi+"."+ci,kind:"arabic",type:"order",rtl:true,q:"Put these words in order, from "+g.src+".",items:w,full:c});
+  }
+})});
+add({key:"am1",kind:"arabic",type:"match",q:"Match each phrase to what it is.",pairs:[[AR("سمع الله لمن حمده"),"Tasmīʿ"],[AR("ربنا ولك الحمد"),"Tahmīd"],[AR("رب اغفر لي"),"Between the two prostrations"],[AR("السلام عليكم ورحمة الله"),"Taslīm"],[AR("أستغفر الله"),"First dhikr after Salah, ×3"],[AR("اللهم صل على محمد"),"Minimum salawāt"]]});
+add({key:"am2",kind:"arabic",type:"match",q:"Match each phrase to where it belongs.",pairs:[[AR("أعوذ بالله من عذاب جهنم…"),"Duʿāʾ before the taslīm"],[AR("سبحان الله والحمد لله والله أكبر"),"Said 33 times each"],[AR("اللهم أنت السلام ومنك السلام"),"Said after the istighfār"],[AR("التحيات لله والصلوات والطيبات"),"Opens the tashahhud"],[AR("لا إله إلا الله وحده لا شريك له…"),"Said after the 33 counts"],[AR("وبارك على محمد وعلى آل محمد…"),"Second half of the salawāt"]]});
+
+/* ---------- state ---------- */
+var S={tab:store.d.tab||'learn',mem:{mode:'cards',dir:'en2ar',queue:null,shown:false,list:'shurut',rev:{}},quiz:null};
+var KINDS={rulings:["Rulings","Name what each item is: condition, pillar, obligation, sunnah, disliked or invalidating."],facts:["Facts and scenarios","Counts, ages, ʿawrah, tashahhud, taslīm, adhkār."],lists:["Lists and order","Rebuild the nine, eight and fourteen. Sort invalidating from disliked."],arabic:["Arabic","Missing words, word order and matching phrases."]};
+
+/* ---------- views ---------- */
+function learnView(){
+  var n=Object.keys(store.d.learned).length;
+  var h='<h1>Learn the prayer, then prove it.</h1><p class="lede">Follow Salah in order, step by step. Then test yourself until the lists, the Arabic and the rulings come without looking.</p>';
+  h+='<div class="counts"><div><b>9</b><span>Shurūṭ</span></div><div><b>14</b><span>Arkān</span></div><div><b>8</b><span>Wājibāt</span></div><div><b>∞</b><span>Sunan</span></div></div>';
+  h+='<p class="note">The pages this page is built from begin at the tashahhud. The opening du‘ā, the words of al-Fātiḥa and the tasbīḥ in rukūʿ and sujūd are not in them, so learn those from your teacher alongside this.</p>';
+  h+='<h2>The prayer, step by step</h2><p class="meta" id="lcount">'+n+' of '+STEPS.length+' steps marked as learned</p>';
+  STEPS.forEach(function(s,i){
+    var d=!!store.d.learned[s.id];
+    h+='<details class="step"><summary><span class="idx">'+(i+1)+'</span><span class="st-title">'+s.t+'</span><span class="tag '+(d?'done':s.cls)+'" id="tag-'+s.id+'">'+(d?'Learned':s.tag)+'</span></summary><div class="step-body">'+s.body+'<button class="btn sm" data-act="learned" data-id="'+s.id+'" data-tag="'+s.tag+'" data-cls="'+s.cls+'">'+(d?'Mark as not learned':'Mark as learned')+'</button></div></details>';
+  });
+  h+='<h2>Reference lists</h2>';
+  Object.keys(LISTS).forEach(function(k){var L=LISTS[k];
+    h+='<details class="ref"><summary><span>'+L.n+'</span><span class="meta">'+L.a.length+'</span></summary><ol>'+L.a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ol></details>';});
+  h+='<div class="row" style="margin-top:28px"><button class="btn primary" data-act="tab" data-t="memorise">Start memorising</button><button class="btn" data-act="tab" data-t="quiz">Take a quiz</button></div>';
+  return h;
+}
+
+function memView(){
+  var m=S.mem;
+  var h='<h1>Memorise</h1><p class="lede">Recall first, then check. Be strict: only press “Got it” when you could say it in full.</p>';
+  h+='<div class="seg" role="group"><button data-act="mmode" data-m="cards" aria-pressed="'+(m.mode==='cards')+'">Recitations</button><button data-act="mmode" data-m="lists" aria-pressed="'+(m.mode==='lists')+'">Lists</button></div>';
+  if(m.mode==='cards')h+=cardsView();else h+=listsView();
+  return h;
+}
+function ensureQueue(){
+  var m=S.mem;
+  if(!m.queue)m.queue=shuffle(RECS.filter(function(r){return !store.d.known[r.id]}).map(function(r){return r.id}));
+}
+function cardsView(){
+  var m=S.mem;ensureQueue();
+  var known=RECS.filter(function(r){return store.d.known[r.id]}).length;
+  var h='<div class="row" style="margin:18px 0 6px"><div class="seg" role="group"><button data-act="mdir" data-d="en2ar" aria-pressed="'+(m.dir==='en2ar')+'">Name → Arabic</button><button data-act="mdir" data-d="ar2en" aria-pressed="'+(m.dir==='ar2en')+'">Arabic → Name</button></div></div>';
+  h+='<div class="prog"><i style="width:'+(known/RECS.length*100)+'%"></i></div><div class="meta">'+known+' of '+RECS.length+' known</div>';
+  if(!m.queue.length){
+    return h+'<div class="card" style="text-align:center"><div class="q">Every card is marked as known.</div><p class="meta">Come back later and reset them to test yourself again.</p><button class="btn primary" data-act="cardreset">Reset cards</button></div>';
+  }
+  var r=rec(m.queue[0]);
+  var front,back;
+  if(m.dir==='en2ar'){
+    front='<div class="small">Say it from memory</div><div class="name">'+r.name+'</div><div class="meta">'+r.when+'</div>';
+    back='<span class="ar big" lang="ar" dir="rtl">'+r.ar+'</span><div class="tr">'+r.tr+'</div><div class="meta">'+r.en+'</div>';
+  }else{
+    front='<div class="small">What is this, and when is it said?</div><span class="ar big" lang="ar" dir="rtl">'+r.ar+'</span>';
+    back='<div class="name">'+r.name+'</div><div class="meta">'+r.when+'</div><div class="tr">'+r.tr+'</div><div class="meta">'+r.en+'</div>';
+  }
+  h+='<div class="card flash" data-act="flip" role="button" tabindex="0" aria-label="Flip card">'+(m.shown?back:front)+(m.shown?'':'<div class="meta" style="margin-top:12px">Tap to reveal</div>')+'</div>';
+  h+='<div class="row"><button class="btn" data-act="again" '+(m.shown?'':'disabled')+'>Again</button><button class="btn primary" data-act="gotit" '+(m.shown?'':'disabled')+'>Got it</button><span class="meta">'+m.queue.length+' left in this round</span></div>';
+  return h;
+}
+function listsView(){
+  var m=S.mem,L=LISTS[m.list];
+  var h='<div class="chips" style="margin-top:18px">'+Object.keys(LISTS).map(function(k){return '<button class="chip" data-act="mlist" data-k="'+k+'" aria-pressed="'+(k===m.list)+'">'+LISTS[k].n+'</button>'}).join('')+'</div>';
+  var rv=m.rev[m.list]||{};
+  var shown=Object.keys(rv).length;
+  h+='<p class="meta">'+shown+' of '+L.a.length+' revealed. Say the item aloud, then tap to check.</p>';
+  h+='<div style="border-bottom:1px solid var(--line)">'+L.a.map(function(x,i){return '<button class="rv '+(rv[i]?'':'hid')+'" data-act="rv" data-i="'+i+'"><span class="n">'+(i+1)+'</span><span class="t">'+x+'</span></button>'}).join('')+'</div>';
+  h+='<div class="row" style="margin-top:14px"><button class="btn primary" data-act="rvnext">Reveal next</button><button class="btn" data-act="rvall">Show all</button><button class="btn" data-act="rvhide">Hide all</button></div>';
+  return h;
+}
+
+function quizPicker(){
+  var h='<h1>Quiz</h1><p class="lede">Every question comes from your document. Misses are remembered and come back in “Review mistakes” until you get them right twice.</p>';
+  var nm=Object.keys(store.d.missed).length;
+  h+='<div class="modes"><button class="mode primary" data-act="qstart" data-m="exam"><b>Full exam</b><span>25 mixed questions across every type</span></button>';
+  Object.keys(KINDS).forEach(function(k){
+    var c=POOL.filter(function(q){return q.kind===k}).length;
+    h+='<button class="mode" data-act="qstart" data-m="'+k+'"><b>'+KINDS[k][0]+'</b><span>'+KINDS[k][1]+'</span><span class="meta">'+c+' questions in the bank</span></button>';
+  });
+  h+='<button class="mode" data-act="qstart" data-m="mistakes" '+(nm?'':'disabled style="opacity:.5;cursor:not-allowed"')+'><b>Review mistakes</b><span>'+(nm?nm+' questions waiting':'Nothing to review yet')+'</span></button></div>';
+  h+='<p class="meta" style="margin-top:18px">Each practice round is 10 questions, drawn at random from the bank ('+POOL.length+' questions).</p>';
+  return h;
+}
+
+function prep(q){
+  var s={checked:false,correct:false};
+  if(q.type==='mcq'){s.opts=q.opts.map(function(t,i){return {t:t,ok:i===q.a}});if(!q.fixed)s.opts=shuffle(s.opts);s.picked=-1}
+  if(q.type==='set'){s.pool=shuffle(q.pool);s.sel={}}
+  if(q.type==='order'){s.pool=shuffle(q.items.map(function(t,i){return {t:t,id:i}}));s.ans=[]}
+  if(q.type==='match'){s.rights=shuffle(q.pairs.map(function(p,i){return i}));s.pairs={};s.selL=null}
+  return s;
+}
+function quizView(){
+  var Q=S.quiz;
+  if(!Q)return quizPicker();
+  if(Q.done)return summaryView();
+  var q=Q.qs[Q.i],st=Q.st,h='';
+  h+='<div class="top"><button class="btn sm" data-act="qquit">Quit</button><span class="meta">Question '+(Q.i+1)+' of '+Q.qs.length+' · '+Q.score+' correct</span></div>';
+  h+='<div class="prog"><i style="width:'+(Q.i/Q.qs.length*100)+'%"></i></div>';
+  h+='<div class="card"><div class="q">'+q.q+'</div>';
+  if(q.type==='mcq'){
+    h+='<div class="opts">'+st.opts.map(function(o,i){
+      var c=st.checked?(o.ok?'ok':(i===st.picked?'no':'')):'';
+      return '<button class="opt '+c+'" data-act="pick" data-i="'+i+'" '+(st.checked?'disabled':'')+'>'+o.t+'</button>';}).join('')+'</div>';
+  }
+  if(q.type==='set'){
+    h+='<div class="chips">'+st.pool.map(function(t,i){
+      var on=!!st.sel[t],isOk=q.ok.indexOf(t)>=0,c='';
+      if(st.checked){if(on&&isOk)c='ok';else if(on&&!isOk)c='no';else if(!on&&isOk)c='miss'}
+      return '<button class="chip '+c+'" data-act="tog" data-i="'+i+'" aria-pressed="'+on+'" '+(st.checked?'disabled':'')+'>'+t+'</button>';}).join('')+'</div>';
+    h+='<div class="meta">'+Object.keys(st.sel).length+' selected · '+q.ok.length+' are correct</div>';
+    if(!st.checked)h+='<div class="row" style="margin-top:12px"><button class="btn primary" data-act="check">Check</button></div>';
+  }
+  if(q.type==='order'){
+    var rtl=q.rtl?' dir="rtl"':'',ca=q.rtl?' ar':'';
+    h+='<div class="meta">Your answer</div><div class="slot"'+rtl+'>'+(st.ans.length?st.ans.map(function(o,i){
+      var c='';if(st.checked)c=(q.items[i]===o.t)?'ok':'no';
+      return '<button class="chip'+ca+' '+c+'" data-act="odel" data-i="'+i+'" '+(st.checked?'disabled':'')+'><span class="ol-chip"><b>'+(i+1)+'</b>'+o.t+'</span></button>';}).join(''):'<span class="meta">Tap items below in order</span>')+'</div>';
+    h+='<div class="chips"'+rtl+'>'+st.pool.map(function(o,i){return '<button class="chip'+ca+'" data-act="oadd" data-i="'+i+'" '+(st.checked?'disabled':'')+'>'+o.t+'</button>'}).join('')+'</div>';
+    if(!st.checked)h+='<div class="row"><button class="btn primary" data-act="check" '+(st.pool.length?'disabled':'')+'>Check</button><button class="btn" data-act="oreset">Start over</button></div>';
+  }
+  if(q.type==='match'){
+    var letters='ABCDEF';
+    h+='<p class="meta">Tap an item on the left, then its match on the right.</p><div class="pairs"><div class="col">'+q.pairs.map(function(p,i){
+      var paired=st.pairs[i]!==undefined,c='';
+      if(st.checked)c=(st.pairs[i]===i)?'ok':'no';
+      return '<button class="opt '+c+'" data-act="ml" data-i="'+i+'" aria-pressed="'+(st.selL===i)+'" '+(st.checked?'disabled':'')+'><span>'+p[0]+'</span>'+(paired?'<span class="badge">'+letters[i]+'</span>':'')+'</button>';}).join('')+'</div><div class="col">'+st.rights.map(function(ri){
+      var owner=-1;for(var k in st.pairs){if(st.pairs[k]===ri)owner=+k}
+      return '<button class="opt" data-act="mr" data-i="'+ri+'" '+(st.checked?'disabled':'')+'><span>'+q.pairs[ri][1]+'</span>'+(owner>=0?'<span class="badge">'+letters[owner]+'</span>':'')+'</button>';}).join('')+'</div></div>';
+    if(!st.checked)h+='<div class="row" style="margin-top:12px"><button class="btn primary" data-act="check" '+(Object.keys(st.pairs).length<q.pairs.length?'disabled':'')+'>Check</button></div>';
+  }
+  if(st.checked){
+    var why='';
+    if(q.type==='mcq')why=q.why;
+    if(q.type==='set'){var miss=q.ok.filter(function(t){return !st.sel[t]}),wrong=Object.keys(st.sel).filter(function(t){return q.ok.indexOf(t)<0});
+      why=st.correct?'Every item is right.':(miss.length?'Missed: '+miss.length+' (dashed). ':'')+(wrong.length?'Wrongly chosen: '+wrong.length+' (red).':'');}
+    if(q.type==='order')why=st.correct?'That is the right order.':'Correct order: '+(q.full?AR(q.full):q.items.map(function(t,i){return (i+1)+'. '+t}).join(' · '));
+    if(q.type==='match')why=st.correct?'All pairs are right.':'Pairs marked in red are wrong. The right matches: '+q.pairs.map(function(p){return p[0]+' → '+p[1]}).join('; ');
+    h+='<div class="fb '+(st.correct?'good':'bad')+'"><b>'+(st.correct?'Correct':'Not quite')+'</b>'+why+'</div>';
+    h+='<div class="row" style="margin-top:14px"><button class="btn primary" data-act="next">'+(Q.i+1<Q.qs.length?'Next question':'See results')+'</button></div>';
+  }
+  h+='</div>';
+  return h;
+}
+function summaryView(){
+  var Q=S.quiz,pct=Math.round(Q.score/Q.qs.length*100);
+  var msg=pct>=90?'Excellent. This is close to by heart.':pct>=70?'Solid. A few weak spots remain.':pct>=50?'Getting there. Go back to Learn for the missed items.':'Keep going. Revisit the steps, then try a shorter round.';
+  var h='<h1>Results</h1><div class="score">'+Q.score+'<span style="font-size:28px;color:var(--muted)"> / '+Q.qs.length+'</span></div><p class="lede">'+pct+'%. '+msg+'</p>';
+  if(Q.missed.length){
+    h+='<h3>Missed</h3>';
+    Q.missed.forEach(function(q){
+      var a='';
+      if(q.type==='mcq')a=q.why;
+      if(q.type==='set')a='Correct set: '+q.ok.join('; ');
+      if(q.type==='order')a=q.full?AR(q.full):q.items.join(' → ');
+      if(q.type==='match')a=q.pairs.map(function(p){return p[0]+' → '+p[1]}).join('; ');
+      h+='<div class="miss-item">'+q.q+'<div class="meta" style="margin-top:6px">'+a+'</div></div>';
+    });
+  }
+  h+='<div class="row" style="margin-top:24px"><button class="btn primary" data-act="qstart" data-m="'+Q.mode+'">Go again</button><button class="btn" data-act="qquit">All quizzes</button></div>';
+  return h;
+}
+function progressView(){
+  var h='<h1>Progress</h1><p class="lede">Saved in this browser only.</p>';
+  var n=Object.keys(store.d.learned).length,kn=RECS.filter(function(r){return store.d.known[r.id]}).length;
+  h+='<h3>Learning</h3>'+bar('Steps learned',n,STEPS.length)+bar('Recitations known',kn,RECS.length);
+  h+='<h3>Quiz accuracy</h3>';
+  var any=false;
+  Object.keys(KINDS).forEach(function(k){var s=store.d.stats[k];if(s&&(s.r+s.w)){any=true;h+=bar(KINDS[k][0],s.r,s.r+s.w,true)}});
+  if(!any)h+='<p class="meta">No quiz answers yet.</p>';
+  h+='<h3>Mistakes to review</h3><p>'+Object.keys(store.d.missed).length+' questions are waiting.</p>';
+  h+='<div class="row" style="margin-top:24px" id="resetRow"><button class="btn" data-act="reset1">Reset all progress</button></div>';
+  return h;
+}
+function bar(label,a,b,pctOnly){var p=b?Math.round(a/b*100):0;return '<div class="bar-row"><span>'+label+'</span><div class="prog"><i style="width:'+p+'%"></i></div><span class="meta">'+(pctOnly?p+'%':a+'/'+b)+'</span></div>'}
+
+var VIEWS={learn:learnView,memorise:memView,quiz:quizView,progress:progressView};
+function render(keepScroll){
+  var y=window.scrollY;
+  $('#app').innerHTML=VIEWS[S.tab]();
+  var b=document.querySelectorAll('#nav button');
+  for(var i=0;i<b.length;i++)b[i].setAttribute('aria-current',String(b[i].dataset.t===S.tab));
+  if(keepScroll)window.scrollTo(0,y);else window.scrollTo(0,0);
+}
+
+/* ---------- quiz logic ---------- */
+function startQuiz(mode){
+  var pool;
+  if(mode==='exam'){
+    var buckets=Object.keys(KINDS).map(function(k){return shuffle(POOL.filter(function(q){return q.kind===k}))});
+    pool=[];var i=0;while(pool.length<25){var b=buckets[i%buckets.length];if(b.length)pool.push(b.shift());i++;if(i>400)break}
+    pool=shuffle(pool);
+  }else if(mode==='mistakes'){
+    pool=shuffle(POOL.filter(function(q){return store.d.missed[q.key]})).slice(0,15);
+  }else pool=shuffle(POOL.filter(function(q){return q.kind===mode})).slice(0,10);
+  if(!pool.length)return;
+  S.quiz={mode:mode,qs:pool,i:0,score:0,missed:[],done:false,st:prep(pool[0])};
+  render();
+}
+function finishQ(q,ok){
+  var Q=S.quiz,st=Q.st;st.checked=true;st.correct=ok;
+  if(ok)Q.score++;else Q.missed.push(q);
+  var s=store.d.stats[q.kind]||(store.d.stats[q.kind]={r:0,w:0});
+  if(ok)s.r++;else s.w++;
+  if(ok){if(store.d.missed[q.key]){store.d.missed[q.key]--;if(store.d.missed[q.key]<=0)delete store.d.missed[q.key]}}
+  else store.d.missed[q.key]=2;
+  store.save();render(true);
+}
+
+/* ---------- actions ---------- */
+var A={
+ tab:function(d){S.tab=d.t;store.d.tab=d.t;store.save();if(d.t==='quiz'&&S.quiz&&S.quiz.done)S.quiz=null;render()},
+ learned:function(d,el){
+   var on=!store.d.learned[d.id];if(on)store.d.learned[d.id]=1;else delete store.d.learned[d.id];store.save();
+   el.textContent=on?'Mark as not learned':'Mark as learned';
+   var t=document.getElementById('tag-'+d.id);t.textContent=on?'Learned':d.tag;t.className='tag '+(on?'done':d.cls);
+   document.getElementById('lcount').textContent=Object.keys(store.d.learned).length+' of '+STEPS.length+' steps marked as learned';
+ },
+ mmode:function(d){S.mem.mode=d.m;render(true)},
+ mdir:function(d){S.mem.dir=d.d;S.mem.shown=false;render(true)},
+ flip:function(){S.mem.shown=!S.mem.shown;render(true)},
+ gotit:function(){var m=S.mem,id=m.queue.shift();store.d.known[id]=1;store.save();m.shown=false;render(true)},
+ again:function(){var m=S.mem,id=m.queue.shift();m.queue.push(id);m.shown=false;render(true)},
+ cardreset:function(){store.d.known={};store.save();S.mem.queue=null;S.mem.shown=false;render(true)},
+ mlist:function(d){S.mem.list=d.k;render(true)},
+ rv:function(d){var r=S.mem.rev[S.mem.list]||(S.mem.rev[S.mem.list]={});if(r[d.i])delete r[d.i];else r[d.i]=1;render(true)},
+ rvnext:function(){var L=LISTS[S.mem.list],r=S.mem.rev[S.mem.list]||(S.mem.rev[S.mem.list]={});for(var i=0;i<L.a.length;i++){if(!r[i]){r[i]=1;break}}render(true)},
+ rvall:function(){var L=LISTS[S.mem.list],r={};L.a.forEach(function(x,i){r[i]=1});S.mem.rev[S.mem.list]=r;render(true)},
+ rvhide:function(){S.mem.rev[S.mem.list]={};render(true)},
+ qstart:function(d){startQuiz(d.m)},
+ qquit:function(){S.quiz=null;render()},
+ pick:function(d){var Q=S.quiz,q=Q.qs[Q.i],st=Q.st;if(st.checked)return;st.picked=+d.i;finishQ(q,st.opts[st.picked].ok)},
+ tog:function(d){var st=S.quiz.st;if(st.checked)return;var t=st.pool[+d.i];if(st.sel[t])delete st.sel[t];else st.sel[t]=1;render(true)},
+ oadd:function(d){var st=S.quiz.st;if(st.checked)return;st.ans.push(st.pool.splice(+d.i,1)[0]);render(true)},
+ odel:function(d){var st=S.quiz.st;if(st.checked)return;st.pool.push(st.ans.splice(+d.i,1)[0]);render(true)},
+ oreset:function(){var st=S.quiz.st;st.pool=st.pool.concat(st.ans);st.ans=[];render(true)},
+ ml:function(d){var st=S.quiz.st;if(st.checked)return;st.selL=+d.i;render(true)},
+ mr:function(d){var st=S.quiz.st;if(st.checked||st.selL===null)return;var r=+d.i;for(var k in st.pairs){if(st.pairs[k]===r)delete st.pairs[k]}st.pairs[st.selL]=r;st.selL=null;render(true)},
+ check:function(){
+   var Q=S.quiz,q=Q.qs[Q.i],st=Q.st,ok=false;
+   if(q.type==='set'){var sel=Object.keys(st.sel);ok=sel.length===q.ok.length&&sel.every(function(t){return q.ok.indexOf(t)>=0})}
+   if(q.type==='order'){ok=st.ans.length===q.items.length&&st.ans.every(function(o,i){return o.t===q.items[i]})}
+   if(q.type==='match'){ok=q.pairs.every(function(p,i){return st.pairs[i]===i})}
+   finishQ(q,ok);
+ },
+ next:function(){var Q=S.quiz;if(Q.i+1>=Q.qs.length){Q.done=true;render();return}Q.i++;Q.st=prep(Q.qs[Q.i]);render()},
+ reset1:function(){var r=document.getElementById('resetRow');r.innerHTML='<span class="meta">This clears everything saved here.</span><button class="btn primary" data-act="reset2">Yes, reset</button><button class="btn" data-act="reset0">Cancel</button>'},
+ reset0:function(){render(true)},
+ reset2:function(){store.d={learned:{},known:{},stats:{},missed:{},tab:'progress'};store.save();S.mem.queue=null;S.quiz=null;render()}
+};
+document.addEventListener('click',function(e){
+  var t=e.target.closest?e.target.closest('[data-act]'):null;if(!t||t.disabled)return;
+  var f=A[t.dataset.act];if(f)f(t.dataset,t);
+});
+document.addEventListener('keydown',function(e){
+  if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.getAttribute&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click()}
+});
+render();
+})();
+</script>
+
+</body></html>
