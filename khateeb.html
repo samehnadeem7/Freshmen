@@ -1211,6 +1211,17 @@
                         </div>
                         <div class="section-body" id="categoryBreakdown"></div>
                     </div>
+                    <div class="section" id="mySalahCardWrap">
+                        <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3 class="section-title">📖 Salah by Heart Memorisation & Quiz</h3>
+                            <a href="salah.html" target="_blank" class="btn btn-secondary btn-sm" style="display:inline-flex;align-items:center;gap:6px;">
+                                Practice in Guide &rarr;
+                            </a>
+                        </div>
+                        <div class="section-body" id="mySalahBody">
+                            <div style="text-align:center;padding:12px;"><div class="loading-spinner" style="margin:0 auto 8px;"></div>Checking sync status...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -2111,6 +2122,51 @@
                 </div>`;
             }).join('');
         }
+
+        // Salah by Heart Progress Card
+        const salahBody = document.getElementById('mySalahBody');
+        if (salahBody) {
+            db.collection('salah_progress').doc(currentUserId).get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const learned = data.learnedCount || (data.learnedSteps ? Object.keys(data.learnedSteps).length : 0);
+                    const known = data.knownCount || (data.knownRecitations ? Object.keys(data.knownRecitations).length : 0);
+                    let r = 0, w = 0;
+                    if (data.quizStats) {
+                        for (let k in data.quizStats) {
+                            r += (data.quizStats[k].r || 0);
+                            w += (data.quizStats[k].w || 0);
+                        }
+                    }
+                    const totalQ = r + w;
+                    const accuracy = totalQ > 0 ? Math.round((r / totalQ) * 100) : null;
+                    salahBody.innerHTML = `
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:12px;">
+                        <div style="padding:12px;background:var(--bg-card-2);border-radius:var(--radius-xs);border:1px solid var(--border);text-align:center;">
+                            <div style="font-size:1.4rem;font-weight:700;color:var(--accent);">${learned}/14</div>
+                            <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Steps Learned</div>
+                        </div>
+                        <div style="padding:12px;background:var(--bg-card-2);border-radius:var(--radius-xs);border:1px solid var(--border);text-align:center;">
+                            <div style="font-size:1.4rem;font-weight:700;color:var(--info);">${known}/14</div>
+                            <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Recitations Mastered</div>
+                        </div>
+                        <div style="padding:12px;background:var(--bg-card-2);border-radius:var(--radius-xs);border:1px solid var(--border);text-align:center;">
+                            <div style="font-size:1.4rem;font-weight:700;color:var(--warm);">${accuracy !== null ? accuracy + '%' : '—'}</div>
+                            <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Quiz Accuracy</div>
+                        </div>
+                    </div>
+                    <p style="font-size:.78rem;color:var(--text-3);margin:0;text-align:right;">✓ Synced automatically from your Salah by Heart practice sessions.</p>`;
+                } else {
+                    salahBody.innerHTML = `
+                    <div style="text-align:center;padding:12px 0;">
+                        <p style="font-size:.84rem;color:var(--text-2);margin-bottom:10px;">You haven't practiced on Salah by Heart yet.</p>
+                        <a href="salah.html" target="_blank" class="btn btn-primary btn-sm" style="display:inline-flex;">Open Salah by Heart &rarr;</a>
+                    </div>`;
+                }
+            }).catch(e => {
+                salahBody.innerHTML = '<p style="font-size:.8rem;color:var(--text-3);">Could not load Salah progress record.</p>';
+            });
+        }
     }
 
     /* ═══════════════════════════════════════════════
@@ -2356,26 +2412,84 @@
         }
     }
 
-    function viewTraineeProgress(uid, name) {
+    async function viewTraineeProgress(uid, name) {
         const modal = document.getElementById('evalModal');
-        document.getElementById('evalModalTitle').textContent = name + "'s Progress";
+        document.getElementById('evalModalTitle').textContent = name + "'s Training Record";
+        document.getElementById('evalModalBody').innerHTML = '<div style="text-align:center;padding:24px;"><div class="loading-spinner" style="margin:0 auto 12px;"></div>Loading trainee record...</div>';
+        modal.classList.add('open');
 
         const tasks = allTasks.filter(t => t.assignedTo && t.assignedTo.includes(uid));
         const prog  = allProgress.filter(p => p.userId === uid);
         const done  = prog.filter(p => p.status === 'done').length;
         const rate  = tasks.length > 0 ? Math.round((done / tasks.length) * 100) : 0;
 
+        // Fetch Salah progress from Firestore
+        let salah = null;
+        try {
+            const sDoc = await db.collection('salah_progress').doc(uid).get();
+            if (sDoc.exists) salah = sDoc.data();
+        } catch(e) { console.warn("Salah fetch error:", e); }
+
+        let salahHtml = '';
+        if (salah) {
+            const learnedSteps = salah.learnedCount || (salah.learnedSteps ? Object.keys(salah.learnedSteps).length : 0);
+            const knownRecs = salah.knownCount || (salah.knownRecitations ? Object.keys(salah.knownRecitations).length : 0);
+            
+            // Calculate accuracy from stats
+            let totalRight = 0, totalWrong = 0;
+            if (salah.quizStats) {
+                for (let k in salah.quizStats) {
+                    totalRight += (salah.quizStats[k].r || 0);
+                    totalWrong += (salah.quizStats[k].w || 0);
+                }
+            }
+            const totalQ = totalRight + totalWrong;
+            const accuracy = totalQ > 0 ? Math.round((totalRight / totalQ) * 100) : null;
+
+            salahHtml = `
+            <div style="margin-top:16px;padding:16px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25);border-radius:var(--radius-sm);">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <div style="font-size:.9rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Salah by Heart Guide Record
+                    </div>
+                    <span style="font-size:.7rem;padding:2px 8px;border-radius:99px;background:var(--accent-bg);color:var(--accent);font-weight:600;">Live Synced</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;">
+                    <div style="padding:10px;background:var(--bg-card);border-radius:6px;border:1px solid var(--border);">
+                        <div style="font-size:1.2rem;font-weight:700;color:var(--text);">${learnedSteps}<span style="font-size:.8rem;color:var(--text-3);">/14</span></div>
+                        <div style="font-size:.7rem;color:var(--text-3);margin-top:2px;">Steps Learned</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg-card);border-radius:6px;border:1px solid var(--border);">
+                        <div style="font-size:1.2rem;font-weight:700;color:var(--text);">${knownRecs}<span style="font-size:.8rem;color:var(--text-3);">/14</span></div>
+                        <div style="font-size:.7rem;color:var(--text-3);margin-top:2px;">Recitations Mastered</div>
+                    </div>
+                    <div style="padding:10px;background:var(--bg-card);border-radius:6px;border:1px solid var(--border);">
+                        <div style="font-size:1.2rem;font-weight:700;color:var(--text);">${accuracy !== null ? accuracy + '%' : '—'}</div>
+                        <div style="font-size:.7rem;color:var(--text-3);margin-top:2px;">Quiz Accuracy</div>
+                    </div>
+                </div>
+            </div>`;
+        } else {
+            salahHtml = `
+            <div style="margin-top:16px;padding:12px 14px;background:var(--bg-card-2);border:1px dashed var(--border);border-radius:var(--radius-sm);text-align:center;">
+                <p style="font-size:.8rem;color:var(--text-3);margin:0;">No Salah by Heart activity recorded yet for this trainee.</p>
+            </div>`;
+        }
+
         let html = `
-            <div style="display:flex;gap:16px;margin-bottom:20px;">
+            <div style="display:flex;gap:16px;margin-bottom:16px;">
                 <div style="flex:1;text-align:center;padding:14px;background:var(--accent-bg);border-radius:var(--radius-sm);">
                     <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">${rate}%</div>
-                    <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Overall</div>
+                    <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Task Completion</div>
                 </div>
                 <div style="flex:1;text-align:center;padding:14px;background:var(--info-bg);border-radius:var(--radius-sm);">
                     <div style="font-size:1.5rem;font-weight:700;color:var(--info);">${done}/${tasks.length}</div>
-                    <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Completed</div>
+                    <div style="font-size:.72rem;color:var(--text-3);margin-top:2px;">Assigned Tasks</div>
                 </div>
             </div>
+            ${salahHtml}
+            <h4 style="font-size:.8rem;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px;">Assigned Weekly Tasks</h4>
         `;
 
         if (tasks.length === 0) {
@@ -2403,7 +2517,6 @@
         }
 
         document.getElementById('evalModalBody').innerHTML = html;
-        modal.classList.add('open');
     }
 
     /* ═══════════════════════════════════════════════
