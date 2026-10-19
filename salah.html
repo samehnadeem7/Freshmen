@@ -1,11 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Salah by Heart | VNIT Guide</title><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;600;700&family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
-<!-- Firebase SDK for Khateeb Progress Sync -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Gulzar&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Scheherazade+New:wght@400;600;700&family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
 <style>
 /* Layout: one calm reading column. Sticky tab bar, content in plain sections, cards only for interactive objects. */
 :root{
@@ -14,7 +9,7 @@
   --good:#23704A; --good-soft:#E1F1E7; --bad:#AE3B2B; --bad-soft:#F7E3DF;
   --font-display:"Newsreader",Georgia,"Times New Roman",serif;
   --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-ar:"Scheherazade New","Amiri Quran","Amiri","Traditional Arabic",serif;
+  --font-ar:"Scheherazade New","Amiri Quran","Amiri","Gulzar","Noto Nastaliq Urdu","Jameel Noori Nastaleeq","Traditional Arabic",serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0E1412; --surface:#151D1A; --ink:#E8EEEA; --muted:#93A29B; --line:#263230;
@@ -140,7 +135,6 @@ details.ref li{margin-bottom:4px}
   <div class="brand">
     <a href="index.html" class="back-home">← Guide</a>
     <span>Salah by Heart</span>
-    <span id="khateebSyncBadge" style="font-size:11px; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); margin-left:8px; display:none; align-items:center; gap:4px; font-weight:600;"></span>
   </div>
   <nav id="nav" aria-label="Sections">
     <button data-act="tab" data-t="learn">Learn</button>
@@ -159,53 +153,10 @@ var AR=function(t){return '<span class="ar" lang="ar" dir="rtl">'+t+'</span>'};
 var shuffle=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a};
 var hash=function(s){var h=7;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0}return h};
 
-/* ---------- Firebase & Khateeb Sync ---------- */
-var firebaseConfig = {
-  apiKey: "AIzaSyDP5tYKr5E28M7yZUMHth3TH1ibKWbeGHA",
-  authDomain: "vnit-khateeb.firebaseapp.com",
-  projectId: "vnit-khateeb",
-  storageBucket: "vnit-khateeb.firebasestorage.app",
-  messagingSenderId: "405511277617",
-  appId: "1:405511277617:web:bb8c1e56d783bf86cd9910",
-  measurementId: "G-SK3D48MNXW"
-};
-
-var currentKhateebUser = null;
-var syncTimeout = null;
-
-function syncToFirebase(){
-  if (!window.firebase || !firebase.auth) return;
-  var user = firebase.auth().currentUser;
-  if (!user) return;
-  clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(function(){
-    try {
-      var db = firebase.firestore();
-      db.collection('salah_progress').doc(user.uid).set({
-        userId: user.uid,
-        userName: user.displayName || user.email.split('@')[0],
-        userEmail: user.email,
-        learnedCount: Object.keys(store.d.learned || {}).length,
-        learnedSteps: store.d.learned || {},
-        knownCount: Object.keys(store.d.known || {}).length,
-        knownRecitations: store.d.known || {},
-        quizStats: store.d.stats || {},
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-    } catch(e) {
-      console.warn("Salah sync error:", e);
-    }
-  }, 800);
-}
-
 /* ---------- storage ---------- */
 var store={d:{learned:{},known:{},stats:{},missed:{},tab:'learn'},
   load:function(){try{var x=localStorage.getItem('salah-by-heart-v1');if(x){var o=JSON.parse(x);for(var k in o)this.d[k]=o[k]}}catch(e){}},
-  save:function(){
-    try{localStorage.setItem('salah-by-heart-v1',JSON.stringify(this.d))}catch(e){}
-    syncToFirebase();
-  }
-};
+  save:function(){try{localStorage.setItem('salah-by-heart-v1',JSON.stringify(this.d))}catch(e){}}};
 store.load();
 
 /* ---------- source lists (from the document) ---------- */
@@ -511,11 +462,7 @@ function summaryView(){
   return h;
 }
 function progressView(){
-  var syncNote = currentKhateebUser 
-    ? '<span style="display:inline-flex;align-items:center;gap:6px;color:var(--good);font-weight:600;"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Synced to Khateeb Training Portal as ' + (currentKhateebUser.displayName || currentKhateebUser.email) + ' (Tracked by Senior Khateebs)</span>' 
-    : '<span>Saved in this browser only. <a href="khateeb.html" style="color:var(--accent);font-weight:600;margin-left:6px;text-decoration:underline;">Khateeb Login to Sync &rarr;</a></span>';
-
-  var h='<h1>Progress</h1><div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:20px;font-size:14px;line-height:1.4;">' + syncNote + '</div>';
+  var h='<h1>Progress</h1><p class="lede">Saved in this browser only.</p>';
   var n=Object.keys(store.d.learned).length,kn=RECS.filter(function(r){return store.d.known[r.id]}).length;
   h+='<h3>Learning</h3>'+bar('Steps learned',n,STEPS.length)+bar('Recitations known',kn,RECS.length);
   h+='<h3>Quiz accuracy</h3>';
@@ -610,50 +557,6 @@ document.addEventListener('keydown',function(e){
   if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.getAttribute&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click()}
 });
 render();
-
-// Init Firebase Auth for Salah Sync
-if (window.firebase) {
-  try {
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    firebase.auth().onAuthStateChanged(function(user){
-      currentKhateebUser = user;
-      var badge = document.getElementById('khateebSyncBadge');
-      if (user) {
-        if (badge) {
-          badge.style.display = 'inline-flex';
-          badge.style.background = 'var(--accent-soft)';
-          badge.style.color = 'var(--accent)';
-          badge.innerHTML = '🟢 Synced: ' + (user.displayName || user.email.split('@')[0]) + ' · <a href="khateeb.html" style="color:inherit;text-decoration:underline;">Portal</a>';
-        }
-        firebase.firestore().collection('salah_progress').doc(user.uid).get().then(function(doc){
-          if (doc.exists) {
-            var data = doc.data();
-            if (data.learnedSteps) {
-              for (var k in data.learnedSteps) store.d.learned[k] = true;
-            }
-            if (data.knownRecitations) {
-              for (var r in data.knownRecitations) store.d.known[r] = true;
-            }
-            if (data.quizStats) {
-              for (var q in data.quizStats) store.d.stats[q] = data.quizStats[q];
-            }
-            try{localStorage.setItem('salah-by-heart-v1',JSON.stringify(store.d))}catch(e){}
-            render(true);
-          } else {
-            syncToFirebase();
-          }
-        }).catch(function(e){ console.warn(e); });
-      } else {
-        if (badge) {
-          badge.style.display = 'inline-flex';
-          badge.style.background = 'var(--line)';
-          badge.style.color = 'var(--muted)';
-          badge.innerHTML = '👤 Guest · <a href="khateeb.html" style="color:inherit;text-decoration:underline;">Khateeb Sync</a>';
-        }
-      }
-    });
-  } catch(e) { console.warn(e); }
-}
 })();
 </script>
 
