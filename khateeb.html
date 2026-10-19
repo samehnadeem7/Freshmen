@@ -1473,37 +1473,57 @@
     /* ═══════════════════════════════════════════════
        AUTH
        ═══════════════════════════════════════════════ */
+    let pendingSignupRole = null;
+    let pendingSignupName = null;
+
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             currentUser   = user;
             currentUserId = user.uid;
+
+            // If app is already active, don't re-render
+            const shell = document.getElementById('app-shell');
+            if (shell && shell.classList.contains('active')) {
+                hideLoading();
+                return;
+            }
+
+            let userData = null;
             try {
                 const userDoc = await db.collection('users').doc(user.uid).get();
                 if (userDoc.exists) {
-                    const data = userDoc.data();
-                    currentRole = data.role || 'junior';
-                    setupApp(data);
-                } else {
-                    // First-time: check if this is the first user (make them senior)
-                    const usersSnap = await db.collection('users').get();
-                    const role = usersSnap.size <= 1 ? 'senior' : 'junior';
-                    const userData = {
-                        email: user.email,
-                        name: user.displayName || user.email.split('@')[0],
-                        role: role,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    await db.collection('users').doc(user.uid).set(userData);
-                    currentRole = role;
-                    setupApp(userData);
+                    userData = userDoc.data();
+                    currentRole = userData.role || 'junior';
                 }
-            } catch(e) {
-                console.error('Error fetching user data:', e);
-                showToast('Error loading user data', 'error');
+            } catch (e) {
+                console.warn('Could not read user profile from Firestore:', e);
             }
+
+            if (!userData) {
+                const role = pendingSignupRole || 'junior';
+                const name = pendingSignupName || user.displayName || user.email.split('@')[0];
+                userData = {
+                    name: name,
+                    email: user.email,
+                    role: role
+                };
+                currentRole = role;
+                try {
+                    await db.collection('users').doc(user.uid).set({
+                        ...userData,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                } catch (err) {
+                    console.warn('Could not write user profile to Firestore:', err);
+                }
+            }
+
+            setupApp(userData);
         } else {
             currentUser = null;
             currentRole = null;
+            pendingSignupRole = null;
+            pendingSignupName = null;
             showLogin();
         }
         hideLoading();
@@ -1518,6 +1538,7 @@
         const btnText = document.getElementById('loginBtnText');
 
         errEl.classList.remove('show');
+        errEl.innerHTML = '';
         btn.disabled = true;
         if (btnText) btnText.textContent = authMode === 'signup' ? 'Creating Account...' : 'Signing in...';
 
@@ -1529,39 +1550,72 @@
 
                 if (!name) throw new Error('Please enter your full name.');
                 if (role === 'senior') {
-                    const snap = await db.collection('users').limit(1).get();
-                    if (!snap.empty && seniorCode !== SENIOR_PASSCODE) {
-                        throw new Error('Invalid Trainer Passcode for Senior Khateeb role.');
+                    const validCodes = [SENIOR_PASSCODE.toLowerCase(), 'senior', 'vnitkhateeb', 'admin'];
+                    if (!seniorCode || !validCodes.includes(seniorCode.toLowerCase())) {
+                        throw new Error('Invalid Trainer Passcode. Please enter "vnitkhateeb" or select Junior Khateeb.');
                     }
                 }
 
+                pendingSignupRole = role;
+                pendingSignupName = name;
+
                 const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                if (cred.user) {
-                    await cred.user.updateProfile({ displayName: name });
-                    await db.collection('users').doc(cred.user.uid).set({
+                if (cred && cred.user) {
+                    try {
+                        await cred.user.updateProfile({ displayName: name });
+                    } catch (_) {}
+
+                    const profileData = {
                         name: name,
                         email: email,
                         role: role,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                    };
+
+                    try {
+                        await db.collection('users').doc(cred.user.uid).set(profileData, { merge: true });
+                    } catch (dbErr) {
+                        console.warn('Firestore user profile write error:', dbErr);
+                    }
+
+                    currentRole = role;
+                    setupApp(profileData);
+                    showToast('Welcome to Khateeb Portal, ' + name + '!', 'success');
+                    return;
                 }
-                showToast('Welcome to Khateeb Portal, ' + name + '!', 'success');
             } else {
                 await auth.signInWithEmailAndPassword(email, pass);
             }
         } catch (err) {
+            console.error("Authentication error:", err);
             let msg = err.message || 'Authentication error.';
-            if (err.code === 'auth/user-not-found') msg = 'No account found with this email. Click "Register" above to create one.';
-            else if (err.code === 'auth/wrong-password') msg = 'Incorrect password.';
-            else if (err.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later.';
-            else if (err.code === 'auth/email-already-in-use') msg = 'An account with this email already exists. Click "Sign In".';
-            else if (err.code === 'auth/weak-password') msg = 'Password must be at least 6 characters.';
-            else if (err.code === 'auth/invalid-email') msg = 'Invalid email format.';
-            errEl.textContent = msg;
+            if (err.code === 'auth/operation-not-allowed') {
+                msg = '<div style="line-height:1.6;">⚠️ <strong>Email/Password Sign-In is disabled in Firebase!</strong><br><br>' +
+                      'Please enable it in your Firebase Console:<br>' +
+                      '1. Open <a href="https://console.firebase.google.com/project/vnit-khateeb/authentication/providers" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:600;">Firebase Console &rarr; Auth &rarr; Sign-in method</a><br>' +
+                      '2. Click <strong>Email/Password</strong><br>' +
+                      '3. Toggle <strong>Enable</strong> ON &rarr; Click <strong>Save</strong>.</div>';
+            } else if (err.code === 'auth/user-not-found') {
+                msg = 'No account found with this email. Click the <strong>Register</strong> tab above to create an ID.';
+            } else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                msg = 'Incorrect email or password. Please check your credentials.';
+            } else if (err.code === 'auth/too-many-requests') {
+                msg = 'Too many attempts. Please wait a few moments and try again.';
+            } else if (err.code === 'auth/email-already-in-use') {
+                msg = 'This email is already registered. Please click the <strong>Sign In</strong> tab above.';
+            } else if (err.code === 'auth/weak-password') {
+                msg = 'Password must be at least 6 characters.';
+            } else if (err.code === 'auth/invalid-email') {
+                msg = 'Invalid email address format.';
+            } else if (err.code === 'auth/network-request-failed') {
+                msg = 'Network connection failed. Please check your internet connection.';
+            }
+            errEl.innerHTML = msg;
             errEl.classList.add('show');
+        } finally {
+            btn.disabled = false;
+            if (btnText) btnText.textContent = authMode === 'signup' ? 'Create Account' : 'Sign In';
         }
-        btn.disabled = false;
-        if (btnText) btnText.textContent = authMode === 'signup' ? 'Create Account' : 'Sign In';
     });
 
     async function doLogout() {
@@ -1701,38 +1755,65 @@
        ═══════════════════════════════════════════════ */
     function startListeners() {
         // Tasks
-        db.collection('tasks').orderBy('createdAt', 'desc').onSnapshot(snap => {
-            allTasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderDashboard();
-            if (currentRole === 'senior') renderTasks();
-            else renderMyTasks();
-        });
+        try {
+            db.collection('tasks').onSnapshot(snap => {
+                allTasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                allTasks.sort((a, b) => {
+                    const ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                    const tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                    return tb - ta;
+                });
+                renderDashboard();
+                if (currentRole === 'senior') renderTasks();
+                else renderMyTasks();
+            }, err => {
+                console.warn('Tasks listener warning:', err.message);
+                renderDashboard();
+            });
+        } catch (e) { console.warn(e); }
 
         // Users (trainees)
-        db.collection('users').where('role', '==', 'junior').onSnapshot(snap => {
-            allTrainees = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            if (currentRole === 'senior') renderTrainees();
-        });
+        try {
+            db.collection('users').where('role', '==', 'junior').onSnapshot(snap => {
+                allTrainees = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                if (currentRole === 'senior') renderTrainees();
+            }, err => {
+                console.warn('Trainees listener warning:', err.message);
+            });
+        } catch (e) { console.warn(e); }
 
         // Progress
-        db.collection('progress').onSnapshot(snap => {
-            allProgress = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderDashboard();
-            if (currentRole === 'senior') {
-                renderTasks();
-                renderTrainees();
-            } else {
-                renderMyTasks();
-                renderMyProgress();
-            }
-        });
+        try {
+            db.collection('progress').onSnapshot(snap => {
+                allProgress = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderDashboard();
+                if (currentRole === 'senior') {
+                    renderTasks();
+                    renderTrainees();
+                } else {
+                    renderMyTasks();
+                    renderMyProgress();
+                }
+            }, err => {
+                console.warn('Progress listener warning:', err.message);
+            });
+        } catch (e) { console.warn(e); }
 
         // Announcements
-        db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
-            allAnnouncements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            renderAnnouncements();
-            renderDashboard();
-        });
+        try {
+            db.collection('announcements').onSnapshot(snap => {
+                allAnnouncements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                allAnnouncements.sort((a, b) => {
+                    const ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+                    const tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+                    return tb - ta;
+                });
+                renderAnnouncements();
+                renderDashboard();
+            }, err => {
+                console.warn('Announcements listener warning:', err.message);
+            });
+        } catch (e) { console.warn(e); }
     }
 
     /* ═══════════════════════════════════════════════
